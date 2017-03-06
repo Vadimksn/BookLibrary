@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+
+<TabPane minHeight="500.0" minWidth="865.0" prefHeight="500.0" prefWidth="865.0" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+    <tabs>
+        <Tab fx:id="tabAvailableBooks" text="Доступні книги">
+            <content>
+                <fx:include source="tabs/availableBooks.fxml" />
+            </content>
+        </Tab>
+        <Tab fx:id="tabNotAvailableBooks" text="Видані книги">
+            <content>
+                <fx:include source="tabs/notAvailableBooks.fxml" />
+            </content>
+        </Tab>
+        <Tab fx:id="tabBooks" text="Список усіх книг">
+            <content>
+                <fx:include source="tabs/books.fxml" />
+            </content>
+        </Tab>
+        <Tab fx:id="tabStudents" text="Список читачів">
+            <content>
+                <fx:include source="tabs/students.fxml" />
+            </content>
+        </Tab>
+        <Tab fx:id="tabBlackList" text="Чорний список читачів">
+            <content>
+                <fx:include source="tabs/blacklist.fxml" />
+            </content>
+        </Tab>
+    </tabs>
+    <cursor>
+        <Cursor fx:constant="HAND" />
+    </cursor>
+</TabPane>
