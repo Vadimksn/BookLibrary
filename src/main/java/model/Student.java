@@ -1,8 +1,11 @@
 package model;
 
+import utils.PropertiesHolder;
+
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Properties;
 
 /**
  * Created by Vadim on 08.11.2016.
@@ -14,10 +17,9 @@ public class Student {
     private String surname;
     private String middleName;
     private String passportData;
-    private SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
-    private String registrationDate = dateFormat.format(new Date());
+    private String registrationDate = new SimpleDateFormat(PropertiesHolder.getProperty("DATE_FORMAT")).format(new Date());
     private boolean blacklist;
-    private String blacklistDate="";
+    private String blacklistDate = "";
     private List<Book> bookList;
 
     public Student() {

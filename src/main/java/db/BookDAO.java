@@ -2,6 +2,9 @@ package db;
 
 import model.Book;
 import model.Student;
+import servise.ConnectionServise;
+import utils.PropertiesHolder;
+import utils.converter.ResultSetConverter;
 
 import java.sql.*;
 import java.text.SimpleDateFormat;
@@ -15,200 +18,116 @@ import java.util.List;
  */
 public class BookDAO {
 
-    private Connection con = null;
-    private Statement stmt = null;
-    private String url = "jdbc:sqlite:C:/Users/Vadim/Desktop/Приклади/LibraryDB.db";
-
     public void save(Book book) {
-        try {
-            con = DriverManager.getConnection(url);
-            con.setAutoCommit(false);
-            stmt = con.createStatement();
-            String sql = String.format("INSERT INTO  Book(title,author,edition,year_of_publication,date_of_give," +
-                            "date_of_take) VALUES ('%s','%s','%s','%s','','')",
-                    book.getTitle(), book.getAuthor(), book.getEdition(), book.getYearOfPublication());
-            stmt.executeUpdate(sql);
-            con.commit();
+        try (Connection connection = ConnectionServise.createConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(PreparedQuery.INSERT_BOOK)) {
+            connection.setAutoCommit(false);
+            preparedStatement.setString(1, book.getTitle());
+            preparedStatement.setString(2, book.getAuthor());
+            preparedStatement.setString(3, book.getEdition());
+            preparedStatement.setString(4, book.getYearOfPublication());
+            preparedStatement.execute();
+            connection.commit();
         } catch (Exception e) {
             System.err.println(e.getClass().getName() + ": " + e.getMessage());
             e.printStackTrace();
-        } finally {
-            try {
-                if (stmt != null) stmt.close();
-                if (con != null) con.close();
-            } catch (Exception ex) {
-                ex.printStackTrace();
-            }
         }
-
     }
 
     public void delete(Book book) {
-        try {
-            con = DriverManager.getConnection(url);
-            con.setAutoCommit(false);
-            stmt = con.createStatement();
-            String sql = String.format("DELETE FROM Book WHERE id=%d;", book.getId());
-            stmt.executeUpdate(sql);
-            con.commit();
+        try (Connection connection = ConnectionServise.createConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(PreparedQuery.DELETE_BOOK_BY_ID)) {
+            connection.setAutoCommit(false);
+            preparedStatement.setInt(1, book.getId());
+            preparedStatement.execute();
+            connection.commit();
         } catch (Exception e) {
             System.err.println(e.getClass().getName() + ": " + e.getMessage());
             e.printStackTrace();
-        } finally {
-            try {
-                if (stmt != null) stmt.close();
-                if (con != null) con.close();
-            } catch (Exception ex) {
-                ex.printStackTrace();
-            }
         }
-
     }
 
     public void update(Book book) {
-        try {
-            con = DriverManager.getConnection(url);
-            con.setAutoCommit(false);
-            stmt = con.createStatement();
-            String sql = String.format("UPDATE Book SET title='%s',author='%s',edition='%s',year_of_publication='%s' WHERE id=%d;",
-                    book.getTitle(), book.getAuthor(), book.getEdition(), book.getYearOfPublication(), book.getId());
-            stmt.executeUpdate(sql);
-            con.commit();
+        try (Connection connection = ConnectionServise.createConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(PreparedQuery.UPDATE_BOOK_BY_ID)) {
+            connection.setAutoCommit(false);
+            preparedStatement.setString(1, book.getTitle());
+            preparedStatement.setString(2, book.getAuthor());
+            preparedStatement.setString(3, book.getEdition());
+            preparedStatement.setString(4, book.getYearOfPublication());
+            preparedStatement.setInt(5, book.getId());
+            preparedStatement.execute();
+            connection.commit();
         } catch (Exception e) {
             System.err.println(e.getClass().getName() + ": " + e.getMessage());
             e.printStackTrace();
-        } finally {
-            try {
-                if (stmt != null) stmt.close();
-                if (con != null) con.close();
-            } catch (Exception ex) {
-                ex.printStackTrace();
-            }
         }
-
     }
 
     public void give(Book book, Student student) {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
-        Date date = new Date();
+        SimpleDateFormat dateFormat = new SimpleDateFormat(PropertiesHolder.getProperty("DATE_FORMAT"));
         Calendar calendar = Calendar.getInstance();
         calendar.add(Calendar.DATE, 7);
-        try {
-
-            con = DriverManager.getConnection(url);
-            con.setAutoCommit(false);
-            stmt = con.createStatement();
-            String sql = String.format("INSERT INTO spr_bookList(student_id,book_id) VALUES (%d,%d)",
-                    student.getId(), book.getId());
-            stmt.executeUpdate(sql);
-            sql = String.format("UPDATE Book SET date_of_give='%s',date_of_take='%s' WHERE id=%d;",
-                    dateFormat.format(date), dateFormat.format(calendar.getTime()), book.getId());
-            stmt.executeUpdate(sql);
-            con.commit();
+        try (Connection connection = ConnectionServise.createConnection();
+             PreparedStatement preparedStatement1 = connection.prepareStatement(PreparedQuery.INSERT_TO_SPRBOOKS);
+             PreparedStatement preparedStatement2 = connection.prepareStatement(PreparedQuery.SET_DATE_OF_GIVEN_BOOK)) {
+            connection.setAutoCommit(false);
+            preparedStatement1.setInt(1, student.getId());
+            preparedStatement1.setInt(2, book.getId());
+            preparedStatement1.execute();
+            preparedStatement2.setString(1, dateFormat.format(new Date()));
+            preparedStatement2.setString(2, dateFormat.format(calendar.getTime()));
+            preparedStatement2.setInt(3, book.getId());
+            preparedStatement2.execute();
+            connection.commit();
         } catch (Exception e) {
             System.err.println(e.getClass().getName() + ": " + e.getMessage());
             e.printStackTrace();
-        } finally {
-            try {
-                if (stmt != null) stmt.close();
-                if (con != null) con.close();
-            } catch (Exception ex) {
-                ex.printStackTrace();
-            }
         }
-
-
     }
 
     public void take(Book book) {
         book.setDateOfGive(null);
         book.setDateOfTake(null);
-        try {
-            con = DriverManager.getConnection(url);
-            con.setAutoCommit(false);
-            stmt = con.createStatement();
-            String sql = String.format("UPDATE Book SET date_of_give='',date_of_take='' WHERE id=%d;",
-                    book.getId());
-            stmt.executeUpdate(sql);
-            sql = String.format("DELETE FROM spr_bookList WHERE book_id=%d", book.getId());
-            stmt.executeUpdate(sql);
-            con.commit();
+        try (Connection connection = ConnectionServise.createConnection();
+             PreparedStatement preparedStatement1 = connection.prepareStatement(PreparedQuery.DELETE_DATE_OF_TAKEN_BOOK_BY_ID);
+             PreparedStatement preparedStatement2 = connection.prepareStatement(PreparedQuery.DELETE_FROM_SPRBOOKS_BY_ID)) {
+            connection.setAutoCommit(false);
+            preparedStatement1.setInt(1, book.getId());
+            preparedStatement1.execute();
+            preparedStatement2.setInt(1, book.getId());
+            preparedStatement2.execute();
+            connection.commit();
         } catch (Exception e) {
             System.err.println(e.getClass().getName() + ": " + e.getMessage());
             e.printStackTrace();
-        } finally {
-            try {
-                if (stmt != null) stmt.close();
-                if (con != null) con.close();
-            } catch (Exception ex) {
-                ex.printStackTrace();
-            }
         }
-
-    }
-
-    public Book getBookFromResultSet(ResultSet resultSet) {
-        Book book = new Book();
-
-        try {
-            book.setId(resultSet.getInt("id"));
-            book.setTitle(resultSet.getString("title"));
-            book.setAuthor(resultSet.getString("author"));
-            book.setEdition(resultSet.getString("edition"));
-            book.setYearOfPublication(resultSet.getString("year_of_publication"));
-            book.setDateOfGive(resultSet.getString("date_of_give"));
-            book.setDateOfTake(resultSet.getString("date_of_take"));
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-        return book;
     }
 
     public Book getBookById(int id) {
         Book book = new Book();
-        try {
-            con = DriverManager.getConnection(url);
-            stmt = con.createStatement();
-            String sql = String.format("SELECT * FROM Book WHERE id=%d;", id);
-            ResultSet rs = stmt.executeQuery(sql);
-            book = getBookFromResultSet(rs);
-
-        } catch (Exception e) {
-            System.err.println(e.getClass().getName() + ": " + e.getMessage());
+        try (Connection connection = ConnectionServise.createConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(PreparedQuery.SELECT_BOOK_BY_ID)) {
+            preparedStatement.setInt(1, id);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            book = ResultSetConverter.getBook(resultSet);
+        } catch (SQLException e) {
             e.printStackTrace();
-        } finally {
-            try {
-                if (stmt != null) stmt.close();
-                if (con != null) con.close();
-            } catch (Exception ex) {
-                ex.printStackTrace();
-            }
         }
         return book;
     }
 
     public List<Book> getListAllBooks() {
         List list = new ArrayList();
-        Book book = new Book();
-        try {
-            con = DriverManager.getConnection(url);
-            stmt = con.createStatement();
-            String sql = "SELECT * FROM Book";
-            ResultSet rs = stmt.executeQuery(sql);
-            while (rs.next()) {
-                list.add(getBookFromResultSet(rs));
+        try (Connection connection = ConnectionServise.createConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(PreparedQuery.SELECT_ALL_BOOKS)) {
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                list.add(ResultSetConverter.getBook(resultSet));
             }
-        } catch (Exception e) {
+        } catch (SQLException e) {
             System.err.println(e.getClass().getName() + ": " + e.getMessage());
             e.printStackTrace();
-        } finally {
-            try {
-                if (stmt != null) stmt.close();
-                if (con != null) con.close();
-            } catch (Exception ex) {
-                ex.printStackTrace();
-            }
         }
         return list;
     }

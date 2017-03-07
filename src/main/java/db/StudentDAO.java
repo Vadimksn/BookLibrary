@@ -2,6 +2,8 @@ package db;
 
 import model.Book;
 import model.Student;
+import servise.ConnectionServise;
+import utils.converter.ResultSetConverter;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -12,222 +14,125 @@ import java.util.List;
  */
 public class StudentDAO {
 
-    private Connection con = null;
-    private Statement stmt = null;
-    private String url = "jdbc:sqlite:C:/Users/Vadim/Desktop/Приклади/LibraryDB.db";
-
-
     public void save(Student student) {
-        try {
-            con = DriverManager.getConnection(url);
-            con.setAutoCommit(false);
-            stmt = con.createStatement();
-            String sql = String.format("INSERT INTO Student (name,surname,middle_name,passport_data,registration_date," +
-                            "blacklist_date) VALUES ('%s','%s','%s','%s','%s','%s');",
-                    student.getName(), student.getSurname(), student.getMiddleName(),
-                    student.getPassportData(), student.getRegistrationDate(), student.getBlacklistDate());
-            stmt.executeUpdate(sql);
-            con.commit();
+        try (Connection connection = ConnectionServise.createConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(PreparedQuery.INSERT_STUDENT)) {
+            connection.setAutoCommit(false);
+            preparedStatement.setString(1, student.getName());
+            preparedStatement.setString(2, student.getSurname());
+            preparedStatement.setString(3, student.getMiddleName());
+            preparedStatement.setString(4, student.getPassportData());
+            preparedStatement.setString(5, student.getRegistrationDate());
+            preparedStatement.setString(6, student.getBlacklistDate());
+            preparedStatement.execute();
+            connection.commit();
         } catch (Exception e) {
             System.err.println(e.getClass().getName() + ": " + e.getMessage());
             e.printStackTrace();
-        } finally {
-            try {
-                if (stmt != null) stmt.close();
-                if (con != null) con.close();
-            } catch (Exception ex) {
-                ex.printStackTrace();
-            }
         }
-
-
     }
 
     public void delete(Student student) {
-        try {
-            con = DriverManager.getConnection(url);
-            con.setAutoCommit(false);
-            stmt = con.createStatement();
-            String sql = String.format("DELETE FROM Student WHERE id=%d;", student.getId());
-            stmt.executeUpdate(sql);
-            con.commit();
+        try (Connection connection = ConnectionServise.createConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(PreparedQuery.DELETE_STUDENT_BY_ID)) {
+            connection.setAutoCommit(false);
+            preparedStatement.setInt(1, student.getId());
+            preparedStatement.execute();
+            connection.commit();
         } catch (Exception e) {
             System.err.println(e.getClass().getName() + ": " + e.getMessage());
             e.printStackTrace();
-        } finally {
-            try {
-                if (stmt != null) stmt.close();
-                if (con != null) con.close();
-            } catch (Exception ex) {
-                ex.printStackTrace();
-            }
         }
     }
 
     public void update(Student student) {
-        try {
-            con = DriverManager.getConnection(url);
-            con.setAutoCommit(false);
-            stmt = con.createStatement();
-            String sql = String.format("UPDATE Student SET name='%s',surname='%s',middle_name='%s',passport_data='%s' WHERE id=%d;",
-                    student.getName(), student.getSurname(), student.getMiddleName(), student.getPassportData(), student.getId());
-            stmt.executeUpdate(sql);
-            con.commit();
+        try (Connection connection = ConnectionServise.createConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(PreparedQuery.UPDATE_STUDENT_BY_ID)) {
+            connection.setAutoCommit(false);
+            preparedStatement.setString(1, student.getName());
+            preparedStatement.setString(2, student.getSurname());
+            preparedStatement.setString(3, student.getMiddleName());
+            preparedStatement.setString(4, student.getPassportData());
+            preparedStatement.setInt(5, student.getId());
+            preparedStatement.execute();
+            connection.commit();
         } catch (Exception e) {
             System.err.println(e.getClass().getName() + ": " + e.getMessage());
             e.printStackTrace();
-        } finally {
-            try {
-                if (stmt != null) stmt.close();
-                if (con != null) con.close();
-            } catch (Exception ex) {
-                ex.printStackTrace();
-            }
         }
 
     }
 
-    private Student getStudentFromResultSet(ResultSet resultSet) {
-        Student student = new Student();
-        try {
-            student.setId(resultSet.getInt("id"));
-            student.setName(resultSet.getString("name"));
-            student.setSurname(resultSet.getString("surname"));
-            student.setMiddleName(resultSet.getString("middle_name"));
-            student.setPassportData(resultSet.getString("passport_data"));
-            student.setRegistrationDate(resultSet.getString("registration_date"));
-            if (resultSet.getInt("blacklist") == 1) {
-                student.setBlacklist(true);
-            } else student.setBlacklist(false);
-            student.setBlacklistDate(resultSet.getString("blacklist_date"));
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return student;
-
-    }
 
     public Student getStudentById(int id) {
         Student student = new Student();
-        try {
-            con = DriverManager.getConnection(url);
-            stmt = con.createStatement();
-            String sql = String.format("SELECT * FROM Student WHERE id=%d;", id);
-            ResultSet rs = stmt.executeQuery(sql);
-            student = getStudentFromResultSet(rs);
 
-        } catch (Exception e) {
-            System.err.println(e.getClass().getName() + ": " + e.getMessage());
+        try (Connection connection = ConnectionServise.createConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(PreparedQuery.SELECT_STUDENT_BY_ID)) {
+            preparedStatement.setInt(1, id);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            student = ResultSetConverter.getStudent(resultSet);
+        } catch (SQLException e) {
             e.printStackTrace();
-        } finally {
-            try {
-                if (stmt != null) stmt.close();
-                if (con != null) con.close();
-            } catch (Exception ex) {
-                ex.printStackTrace();
-            }
         }
         return student;
     }
 
     public List<Student> getListAllStudents() {
         List list = new ArrayList();
-        Student student = new Student();
-        try {
-            con = DriverManager.getConnection(url);
-            stmt = con.createStatement();
-            String sql = "SELECT * FROM Student";
-            ResultSet rs = stmt.executeQuery(sql);
-            while (rs.next()) {
-                list.add(getStudentFromResultSet(rs));
+
+        try (Connection connection = ConnectionServise.createConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(PreparedQuery.SELECT_ALL_STUDENTS)) {
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                list.add(ResultSetConverter.getStudent(resultSet));
             }
         } catch (Exception e) {
             System.err.println(e.getClass().getName() + ": " + e.getMessage());
             e.printStackTrace();
-        } finally {
-            try {
-                if (stmt != null) stmt.close();
-                if (con != null) con.close();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
         }
         return list;
-
-
     }
 
-    public void saveInBlackList(Student student) {
-        try {
-
-            con = DriverManager.getConnection(url);
-            con.setAutoCommit(false);
-            stmt = con.createStatement();
-            String sql = String.format("UPDATE Student SET blacklist=%d WHERE id=%d;", 1, student.getId());
-            stmt.executeUpdate(sql);
-            con.commit();
+    public void addToBlackList(Student student) {
+        try (Connection connection = ConnectionServise.createConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(PreparedQuery.ADD_STUDENT_TO_BLACKLIST_BY_ID)) {
+            connection.setAutoCommit(false);
+            preparedStatement.setInt(1, student.getId());
+            preparedStatement.execute();
+            connection.commit();
         } catch (Exception e) {
             System.err.println(e.getClass().getName() + ": " + e.getMessage());
             e.printStackTrace();
-        } finally {
-            try {
-                if (stmt != null) stmt.close();
-                if (con != null) con.close();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
         }
     }
 
     public void deleteFromBlackList(Student student) {
-        try {
-            con = DriverManager.getConnection(url);
-            con.setAutoCommit(false);
-            stmt = con.createStatement();
-            String sql = String.format("UPDATE Student SET blacklist=%d WHERE id=%d;", 0, student.getId());
-            stmt.executeUpdate(sql);
-            con.commit();
+        try (Connection connection = ConnectionServise.createConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(PreparedQuery.DELETE_STUDENT_FROM_BLACKLIST_BY_ID)) {
+            connection.setAutoCommit(false);
+            preparedStatement.setInt(1, student.getId());
+            preparedStatement.execute();
+            connection.commit();
         } catch (Exception e) {
             System.err.println(e.getClass().getName() + ": " + e.getMessage());
             e.printStackTrace();
-        } finally {
-            try {
-                if (stmt != null) stmt.close();
-                if (con != null) con.close();
-            } catch (Exception ex) {
-                ex.printStackTrace();
-
-            }
         }
     }
 
     public List<Book> getStudentBookList(Student student) {
         List list = new ArrayList();
-        BookDAO bookDAO = new BookDAO();
-        try {
-            con = DriverManager.getConnection(url);
-            stmt = con.createStatement();
-            String sql = String.format("SELECT * " +
-                            "from Book b INNER JOIN spr_bookList spr on b.id=spr.book_id and spr.student_id=%d",
-                    student.getId());
-            ResultSet rs = stmt.executeQuery(sql);
-            while (rs.next()) {
-
-                list.add(bookDAO.getBookFromResultSet(rs));
+        try (Connection connection = ConnectionServise.createConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(PreparedQuery.SELECT_STUDENT_BOOKS)) {
+            preparedStatement.setInt(1, student.getId());
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                list.add(ResultSetConverter.getBook(resultSet));
             }
         } catch (Exception e) {
             System.err.println(e.getClass().getName() + ": " + e.getMessage());
             e.printStackTrace();
-        } finally {
-            try {
-                if (stmt != null) stmt.close();
-                if (con != null) con.close();
-            } catch (Exception ex) {
-                ex.printStackTrace();
-            }
         }
-
         return list;
     }
 
