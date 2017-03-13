@@ -20,9 +20,9 @@ public class PreparedQuery {
     static final String DELETE_BOOK_BY_ID = "DELETE FROM Book WHERE id=?";
     static final String UPDATE_BOOK_BY_ID = "UPDATE Book SET title=?,author=?,edition=?,year_of_publication=? WHERE id=?";
     static final String DELETE_DATE_OF_TAKEN_BOOK_BY_ID = "UPDATE Book SET date_of_give='',date_of_take='' WHERE id=?";
-    static final String DELETE_FROM_SPRBOOKS_BY_ID = "DELETE FROM spr_bookList WHERE book_id=?";
+    static final String DELETE_FROM_NOT_AVAILABLE_BOOK_BY_BOOK_ID = "DELETE FROM Not_available_book WHERE book_id=?";
     static final String SELECT_BOOK_BY_ID = "SELECT * FROM Book WHERE id=?";
     static final String SELECT_ALL_BOOKS = "SELECT * FROM Book";
-    static final String INSERT_TO_SPRBOOKS = "INSERT INTO spr_bookList(student_id,book_id) VALUES (?,?)";
+    static final String INSERT_INTO_NOT_AVAILABLE_BOOK = "INSERT INTO Not_available_book(student_id,book_id) VALUES (?,?)";
     static final String SET_DATE_OF_GIVEN_BOOK = "UPDATE Book SET date_of_give=?,date_of_take=? WHERE id=?";
 }

@@ -69,7 +69,7 @@ public class BookDAO {
         Calendar calendar = Calendar.getInstance();
         calendar.add(Calendar.DATE, 7);
         try (Connection connection = ConnectionServise.createConnection();
-             PreparedStatement preparedStatement1 = connection.prepareStatement(PreparedQuery.INSERT_TO_SPRBOOKS);
+             PreparedStatement preparedStatement1 = connection.prepareStatement(PreparedQuery.INSERT_INTO_NOT_AVAILABLE_BOOK);
              PreparedStatement preparedStatement2 = connection.prepareStatement(PreparedQuery.SET_DATE_OF_GIVEN_BOOK)) {
             connection.setAutoCommit(false);
             preparedStatement1.setInt(1, student.getId());
@@ -91,7 +91,7 @@ public class BookDAO {
         book.setDateOfTake(null);
         try (Connection connection = ConnectionServise.createConnection();
              PreparedStatement preparedStatement1 = connection.prepareStatement(PreparedQuery.DELETE_DATE_OF_TAKEN_BOOK_BY_ID);
-             PreparedStatement preparedStatement2 = connection.prepareStatement(PreparedQuery.DELETE_FROM_SPRBOOKS_BY_ID)) {
+             PreparedStatement preparedStatement2 = connection.prepareStatement(PreparedQuery.DELETE_FROM_NOT_AVAILABLE_BOOK_BY_BOOK_ID)) {
             connection.setAutoCommit(false);
             preparedStatement1.setInt(1, book.getId());
             preparedStatement1.execute();
