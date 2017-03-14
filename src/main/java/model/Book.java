@@ -13,6 +13,7 @@ public class Book {
     private String yearOfPublication;
     private String dateOfGive;
     private String dateOfTake;
+    private boolean available;
 
     public Book() {
     }
@@ -80,4 +81,11 @@ public class Book {
         this.dateOfTake = dateOfTake;
     }
 
+    public boolean isAvailable() {
+        return available;
+    }
+
+    public void setAvailable(boolean available) {
+        this.available = available;
+    }
 }

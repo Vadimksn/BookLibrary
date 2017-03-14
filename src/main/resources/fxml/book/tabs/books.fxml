@@ -8,7 +8,7 @@
 
 <AnchorPane prefHeight="358.0" prefWidth="865.0" style="-fx-background-color: #d7d7d7;"
             xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="controllers.BooksController">
+            fx:controller="controllers.book.BooksController">
     <children>
         <TableView fx:id="tvBooks" prefHeight="471.0" prefWidth="690.0" AnchorPane.bottomAnchor="55.0"
                    AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
@@ -34,7 +34,7 @@
                 AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="15.0"/>
         <Button fx:id="btnDeleteBook" minHeight="25.0" minWidth="102.0" mnemonicParsing="false" text="Видалити книгу"
                 textFill="RED" AnchorPane.bottomAnchor="15.0" AnchorPane.rightAnchor="15.0"/>
-        <Button fx:id="btnChangeBook" minHeight="25.0" minWidth="94.0" mnemonicParsing="false" text="Змінити книгу"
+        <Button fx:id="btnEditBook" minHeight="25.0" minWidth="94.0" mnemonicParsing="false" text="Змінити книгу"
                 AnchorPane.bottomAnchor="15.0" AnchorPane.rightAnchor="132.0"/>
         <Button fx:id="btnAddNewBook" minHeight="25.0" minWidth="90.0" mnemonicParsing="false" text="Додати книгу"
                 textFill="#048010" AnchorPane.bottomAnchor="15.0" AnchorPane.rightAnchor="241.0"/>

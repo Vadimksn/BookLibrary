@@ -70,14 +70,15 @@ public class BookDAO {
         calendar.add(Calendar.DATE, 7);
         try (Connection connection = ConnectionService.createConnection();
              PreparedStatement preparedStatement1 = connection.prepareStatement(PreparedQuery.INSERT_INTO_NOT_AVAILABLE_BOOK);
-             PreparedStatement preparedStatement2 = connection.prepareStatement(PreparedQuery.SET_DATE_OF_GIVEN_BOOK)) {
+             PreparedStatement preparedStatement2 = connection.prepareStatement(PreparedQuery.SET_BOOK_AVAILABLE_BY_ID)) {
             connection.setAutoCommit(false);
             preparedStatement1.setInt(1, student.getId());
             preparedStatement1.setInt(2, book.getId());
             preparedStatement1.execute();
-            preparedStatement2.setString(1, dateFormat.format(new Date()));
-            preparedStatement2.setString(2, dateFormat.format(calendar.getTime()));
-            preparedStatement2.setInt(3, book.getId());
+            preparedStatement2.setInt(1, 0);
+            preparedStatement2.setString(2, dateFormat.format(new Date()));
+            preparedStatement2.setString(3, dateFormat.format(calendar.getTime()));
+            preparedStatement2.setInt(4, book.getId());
             preparedStatement2.execute();
             connection.commit();
         } catch (Exception e) {
@@ -90,10 +91,13 @@ public class BookDAO {
         book.setDateOfGive(null);
         book.setDateOfTake(null);
         try (Connection connection = ConnectionService.createConnection();
-             PreparedStatement preparedStatement1 = connection.prepareStatement(PreparedQuery.DELETE_DATE_OF_TAKEN_BOOK_BY_ID);
-             PreparedStatement preparedStatement2 = connection.prepareStatement(PreparedQuery.DELETE_FROM_NOT_AVAILABLE_BOOK_BY_BOOK_ID)) {
+             PreparedStatement preparedStatement1 = connection.prepareStatement(PreparedQuery.SET_BOOK_AVAILABLE_BY_ID);
+             PreparedStatement preparedStatement2 = connection.prepareStatement(PreparedQuery.DELETE_FROM_NOT_AVAILABLE_BOOK_BY_ID)) {
             connection.setAutoCommit(false);
-            preparedStatement1.setInt(1, book.getId());
+            preparedStatement1.setInt(1, 1);
+            preparedStatement1.setString(2, "");
+            preparedStatement1.setString(3, "");
+            preparedStatement1.setInt(4, book.getId());
             preparedStatement1.execute();
             preparedStatement2.setInt(1, book.getId());
             preparedStatement2.execute();

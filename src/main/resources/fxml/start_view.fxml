@@ -6,27 +6,27 @@
     <tabs>
         <Tab fx:id="tabBooksAvailable" text="Доступні книги">
             <content>
-                <fx:include source="tabs/books_available.fxml" />
+                <fx:include source="book/tabs/books_available.fxml" />
             </content>
         </Tab>
         <Tab fx:id="tabBooksNotAvailable" text="Видані книги">
             <content>
-                <fx:include source="tabs/books_not_available.fxml" />
+                <fx:include source="book/tabs/books_not_available.fxml" />
             </content>
         </Tab>
         <Tab fx:id="tabBooks" text="Список усіх книг">
             <content>
-                <fx:include source="tabs/books.fxml" />
+                <fx:include source="book/tabs/books.fxml" />
             </content>
         </Tab>
         <Tab fx:id="tabStudents" text="Список читачів">
             <content>
-                <fx:include source="tabs/students.fxml" />
+                <fx:include source="student/tabs/students.fxml" />
             </content>
         </Tab>
         <Tab fx:id="tabStudentsBlackList" text="Чорний список читачів">
             <content>
-                <fx:include source="tabs/students_blacklist.fxml" />
+                <fx:include source="student/tabs/students_blacklist.fxml" />
             </content>
         </Tab>
     </tabs>

@@ -20,9 +20,9 @@ public class ResultSetConverter {
         student.setMiddleName(resultSet.getString("middle_name"));
         student.setPassportData(resultSet.getString("passport_data"));
         student.setRegistrationDate(resultSet.getString("registration_date"));
-        if (resultSet.getInt("blacklist") == 1) {
-            student.setBlacklist(true);
-        } else student.setBlacklist(false);
+        if (resultSet.getInt("blacklist") == 0) {
+            student.setBlacklist(false);
+        } else student.setBlacklist(true);
         student.setBlacklistDate(resultSet.getString("blacklist_date"));
 
         return student;
@@ -38,6 +38,9 @@ public class ResultSetConverter {
         book.setYearOfPublication(resultSet.getString("year_of_publication"));
         book.setDateOfGive(resultSet.getString("date_of_give"));
         book.setDateOfTake(resultSet.getString("date_of_take"));
+        if (resultSet.getInt("available") == 1) {
+            book.setAvailable(true);
+        } else book.setAvailable(false);
 
         return book;
     }
