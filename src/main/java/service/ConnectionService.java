@@ -1,4 +1,4 @@
-package servise;
+package service;
 
 import utils.PropertiesHolder;
 
@@ -8,7 +8,7 @@ import java.sql.DriverManager;
 /**
  * Created by Vadim on 06.03.2017.
  */
-public class ConnectionServise {
+public class ConnectionService {
 
     public static Connection createConnection() {
         Connection connection = null;

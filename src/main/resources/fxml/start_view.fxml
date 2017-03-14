@@ -1,22 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.Cursor?>
-<?import javafx.scene.control.Tab?>
-<?import javafx.scene.control.TabPane?>
-
 <TabPane minHeight="500.0" minWidth="865.0" prefHeight="500.0" prefWidth="865.0" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
     <tabs>
-        <Tab fx:id="tabAvailableBooks" text="Доступні книги">
+        <Tab fx:id="tabBooksAvailable" text="Доступні книги">
             <content>
-                <fx:include source="tabs/availableBooks.fxml" />
+                <fx:include source="tabs/books_available.fxml" />
             </content>
         </Tab>
-        <Tab fx:id="tabNotAvailableBooks" text="Видані книги">
+        <Tab fx:id="tabBooksNotAvailable" text="Видані книги">
             <content>
-                <fx:include source="tabs/notAvailableBooks.fxml" />
+                <fx:include source="tabs/books_not_available.fxml" />
             </content>
         </Tab>
         <Tab fx:id="tabBooks" text="Список усіх книг">
@@ -29,9 +24,9 @@
                 <fx:include source="tabs/students.fxml" />
             </content>
         </Tab>
-        <Tab fx:id="tabBlackList" text="Чорний список читачів">
+        <Tab fx:id="tabStudentsBlackList" text="Чорний список читачів">
             <content>
-                <fx:include source="tabs/blacklist.fxml" />
+                <fx:include source="tabs/students_blacklist.fxml" />
             </content>
         </Tab>
     </tabs>

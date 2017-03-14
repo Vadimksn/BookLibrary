@@ -2,7 +2,7 @@ package db;
 
 import model.Book;
 import model.Student;
-import servise.ConnectionServise;
+import service.ConnectionService;
 import utils.converter.ResultSetConverter;
 
 import java.sql.*;
@@ -15,7 +15,7 @@ import java.util.List;
 public class StudentDAO {
 
     public void save(Student student) {
-        try (Connection connection = ConnectionServise.createConnection();
+        try (Connection connection = ConnectionService.createConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(PreparedQuery.INSERT_STUDENT)) {
             connection.setAutoCommit(false);
             preparedStatement.setString(1, student.getName());
@@ -33,7 +33,7 @@ public class StudentDAO {
     }
 
     public void delete(Student student) {
-        try (Connection connection = ConnectionServise.createConnection();
+        try (Connection connection = ConnectionService.createConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(PreparedQuery.DELETE_STUDENT_BY_ID)) {
             connection.setAutoCommit(false);
             preparedStatement.setInt(1, student.getId());
@@ -46,7 +46,7 @@ public class StudentDAO {
     }
 
     public void update(Student student) {
-        try (Connection connection = ConnectionServise.createConnection();
+        try (Connection connection = ConnectionService.createConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(PreparedQuery.UPDATE_STUDENT_BY_ID)) {
             connection.setAutoCommit(false);
             preparedStatement.setString(1, student.getName());
@@ -67,7 +67,7 @@ public class StudentDAO {
     public Student getStudentById(int id) {
         Student student = new Student();
 
-        try (Connection connection = ConnectionServise.createConnection();
+        try (Connection connection = ConnectionService.createConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(PreparedQuery.SELECT_STUDENT_BY_ID)) {
             preparedStatement.setInt(1, id);
             ResultSet resultSet = preparedStatement.executeQuery();
@@ -81,7 +81,7 @@ public class StudentDAO {
     public List<Student> getListAllStudents() {
         List list = new ArrayList();
 
-        try (Connection connection = ConnectionServise.createConnection();
+        try (Connection connection = ConnectionService.createConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(PreparedQuery.SELECT_ALL_STUDENTS)) {
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
@@ -95,7 +95,7 @@ public class StudentDAO {
     }
 
     public void addToBlackList(Student student) {
-        try (Connection connection = ConnectionServise.createConnection();
+        try (Connection connection = ConnectionService.createConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(PreparedQuery.ADD_STUDENT_TO_BLACKLIST_BY_ID)) {
             connection.setAutoCommit(false);
             preparedStatement.setInt(1, student.getId());
@@ -108,7 +108,7 @@ public class StudentDAO {
     }
 
     public void deleteFromBlackList(Student student) {
-        try (Connection connection = ConnectionServise.createConnection();
+        try (Connection connection = ConnectionService.createConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(PreparedQuery.DELETE_STUDENT_FROM_BLACKLIST_BY_ID)) {
             connection.setAutoCommit(false);
             preparedStatement.setInt(1, student.getId());
@@ -122,7 +122,7 @@ public class StudentDAO {
 
     public List<Book> getStudentBookList(Student student) {
         List list = new ArrayList();
-        try (Connection connection = ConnectionServise.createConnection();
+        try (Connection connection = ConnectionService.createConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(PreparedQuery.SELECT_STUDENT_BOOKS)) {
             preparedStatement.setInt(1, student.getId());
             ResultSet resultSet = preparedStatement.executeQuery();

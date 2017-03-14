@@ -2,7 +2,7 @@ package db;
 
 import model.Book;
 import model.Student;
-import servise.ConnectionServise;
+import service.ConnectionService;
 import utils.PropertiesHolder;
 import utils.converter.ResultSetConverter;
 
@@ -19,7 +19,7 @@ import java.util.List;
 public class BookDAO {
 
     public void save(Book book) {
-        try (Connection connection = ConnectionServise.createConnection();
+        try (Connection connection = ConnectionService.createConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(PreparedQuery.INSERT_BOOK)) {
             connection.setAutoCommit(false);
             preparedStatement.setString(1, book.getTitle());
@@ -35,7 +35,7 @@ public class BookDAO {
     }
 
     public void delete(Book book) {
-        try (Connection connection = ConnectionServise.createConnection();
+        try (Connection connection = ConnectionService.createConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(PreparedQuery.DELETE_BOOK_BY_ID)) {
             connection.setAutoCommit(false);
             preparedStatement.setInt(1, book.getId());
@@ -48,7 +48,7 @@ public class BookDAO {
     }
 
     public void update(Book book) {
-        try (Connection connection = ConnectionServise.createConnection();
+        try (Connection connection = ConnectionService.createConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(PreparedQuery.UPDATE_BOOK_BY_ID)) {
             connection.setAutoCommit(false);
             preparedStatement.setString(1, book.getTitle());
@@ -68,7 +68,7 @@ public class BookDAO {
         SimpleDateFormat dateFormat = new SimpleDateFormat(PropertiesHolder.getProperty("DATE_FORMAT"));
         Calendar calendar = Calendar.getInstance();
         calendar.add(Calendar.DATE, 7);
-        try (Connection connection = ConnectionServise.createConnection();
+        try (Connection connection = ConnectionService.createConnection();
              PreparedStatement preparedStatement1 = connection.prepareStatement(PreparedQuery.INSERT_INTO_NOT_AVAILABLE_BOOK);
              PreparedStatement preparedStatement2 = connection.prepareStatement(PreparedQuery.SET_DATE_OF_GIVEN_BOOK)) {
             connection.setAutoCommit(false);
@@ -89,7 +89,7 @@ public class BookDAO {
     public void take(Book book) {
         book.setDateOfGive(null);
         book.setDateOfTake(null);
-        try (Connection connection = ConnectionServise.createConnection();
+        try (Connection connection = ConnectionService.createConnection();
              PreparedStatement preparedStatement1 = connection.prepareStatement(PreparedQuery.DELETE_DATE_OF_TAKEN_BOOK_BY_ID);
              PreparedStatement preparedStatement2 = connection.prepareStatement(PreparedQuery.DELETE_FROM_NOT_AVAILABLE_BOOK_BY_BOOK_ID)) {
             connection.setAutoCommit(false);
@@ -106,7 +106,7 @@ public class BookDAO {
 
     public Book getBookById(int id) {
         Book book = new Book();
-        try (Connection connection = ConnectionServise.createConnection();
+        try (Connection connection = ConnectionService.createConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(PreparedQuery.SELECT_BOOK_BY_ID)) {
             preparedStatement.setInt(1, id);
             ResultSet resultSet = preparedStatement.executeQuery();
@@ -119,7 +119,7 @@ public class BookDAO {
 
     public List<Book> getListAllBooks() {
         List list = new ArrayList();
-        try (Connection connection = ConnectionServise.createConnection();
+        try (Connection connection = ConnectionService.createConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(PreparedQuery.SELECT_ALL_BOOKS)) {
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {

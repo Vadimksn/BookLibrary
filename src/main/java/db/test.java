@@ -14,19 +14,25 @@ public class test {
 
     public static void main(String[] args) {
 
-        StudentDAO studentDAO = new StudentDAO();
-        Student student = studentDAO.getStudentById(1);
-        studentDAO.deleteFromBlackList(student);
+//        BookDAO bookDAO = new BookDAO();
+//        Book book= new Book("1","2","3","1222");
+//        book.setId(4);
+//        bookDAO.take(book);
+
+
+//        StudentDAO studentDAO = new StudentDAO();
+//        Student student = studentDAO.getStudentById(1);
+//        studentDAO.deleteFromBlackList(student);
 
 //        studentDAO.update(student);
 
 //        System.out.println(studentDAO.getStudentById(9).getName());
 
-        List<Book> books = studentDAO.getStudentBookList(studentDAO.getStudentById(4));
-        for (int i = 0; i < books.size(); i++) {
-            Book book1 = books.get(i);
-//            Student student1 = students.get(i);
-            System.out.println(book1.getTitle());}
+//        List<Book> books = studentDAO.getStudentBookList(studentDAO.getStudentById(4));
+//        for (int i = 0; i < books.size(); i++) {
+//            Book book1 = books.get(i);
+////            Student student1 = students.get(i);
+//            System.out.println(book1.getTitle());}
 //        studentDAO.saveInBlackList(studentDAO.getStudentById(1));
 //        studentDAO.deleteFromBlackList(studentDAO.getStudentById(1));
 //        System.out.println(studentDAO.getStudentById(1).isBlacklist());
