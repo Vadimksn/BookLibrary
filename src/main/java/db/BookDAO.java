@@ -69,7 +69,7 @@ public class BookDAO {
         Calendar calendar = Calendar.getInstance();
         calendar.add(Calendar.DATE, 7);
         try (Connection connection = ConnectionService.createConnection();
-             PreparedStatement preparedStatement1 = connection.prepareStatement(PreparedQuery.INSERT_INTO_NOT_AVAILABLE_BOOK);
+             PreparedStatement preparedStatement1 = connection.prepareStatement(PreparedQuery.INSERT_INTO_STUDENT_BOOKS);
              PreparedStatement preparedStatement2 = connection.prepareStatement(PreparedQuery.SET_BOOK_AVAILABLE_BY_ID)) {
             connection.setAutoCommit(false);
             preparedStatement1.setInt(1, student.getId());
@@ -92,7 +92,7 @@ public class BookDAO {
         book.setDateOfTake(null);
         try (Connection connection = ConnectionService.createConnection();
              PreparedStatement preparedStatement1 = connection.prepareStatement(PreparedQuery.SET_BOOK_AVAILABLE_BY_ID);
-             PreparedStatement preparedStatement2 = connection.prepareStatement(PreparedQuery.DELETE_FROM_NOT_AVAILABLE_BOOK_BY_ID)) {
+             PreparedStatement preparedStatement2 = connection.prepareStatement(PreparedQuery.DELETE_FROM_STUDENT_BOOKS_BY_ID)) {
             connection.setAutoCommit(false);
             preparedStatement1.setInt(1, 1);
             preparedStatement1.setString(2, "");
@@ -140,6 +140,20 @@ public class BookDAO {
         List list = new ArrayList();
         try (Connection connection = ConnectionService.createConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(PreparedQuery.SELECT_AVAILABLE_BOOKS)) {
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                list.add(ResultSetConverter.getBook(resultSet));
+            }
+        } catch (SQLException e) {
+            System.err.println(e.getClass().getName() + ": " + e.getMessage());
+            e.printStackTrace();
+        }
+        return list;
+    }
+    public List<Book> getListNotAvailableBooks() {
+        List list = new ArrayList();
+        try (Connection connection = ConnectionService.createConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(PreparedQuery.SELECT_NOT_AVAILABLE_BOOKS)) {
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
                 list.add(ResultSetConverter.getBook(resultSet));
