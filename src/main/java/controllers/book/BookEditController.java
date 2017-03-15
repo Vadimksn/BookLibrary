@@ -48,7 +48,7 @@ public class BookEditController implements Initializable {
                 book.setYearOfPublication(tfYearOfPublication.getText());
                 if (bookValidator.checkAllTextField(book)) {
                     bookService.updateBook(book);
-                    booksController.initData();
+                    booksController.initTableData();
                     getStage().close();
                 }
             }

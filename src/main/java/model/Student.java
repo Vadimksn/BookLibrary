@@ -103,4 +103,8 @@ public class Student {
     public void setBookList(List<Book> bookList) {
         this.bookList = bookList;
     }
+
+    public String toStringForSearch() {
+        return "" + id + " " + name + " " + surname + " " + middleName + " " + passportData;
+    }
 }

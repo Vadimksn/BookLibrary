@@ -18,7 +18,7 @@ public class Book {
     public Book() {
     }
 
-    public Book( String title, String author, String edition, String yearOfPublication) {
+    public Book(String title, String author, String edition, String yearOfPublication) {
         this.title = title;
         this.author = author;
         this.edition = edition;
@@ -87,5 +87,9 @@ public class Book {
 
     public void setAvailable(boolean available) {
         this.available = available;
+    }
+
+    public String toStringForSearch() {
+        return "" + id + " " + title + " " + author + " " + edition + " " + yearOfPublication;
     }
 }

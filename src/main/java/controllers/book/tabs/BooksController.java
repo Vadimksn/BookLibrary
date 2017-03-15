@@ -1,6 +1,8 @@
 package controllers.book.tabs;
 
+import controllers.BaseTableController;
 import controllers.book.BookEditController;
+import controllers.student.StudentChooseController;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -19,12 +21,14 @@ import service.book.BookService;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
 
 /**
  * Created by Vadim on 13.03.2017.
  */
-public class BooksController implements Initializable {
+public class BooksController extends BaseTableController<Book> implements Initializable{
     @FXML
     private TableView<Book> tvBooks;
     @FXML
@@ -35,7 +39,7 @@ public class BooksController implements Initializable {
     private TextField tfSearch;
 
     private static BooksController instance;
-    private ObservableList<Book> bookList;
+    private ObservableList<Book> bookObservableList;
     private BookService bookService = new BookService();
 
     public static BooksController getInstance() {
@@ -46,28 +50,68 @@ public class BooksController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         instance = this;
-        initData();
+        initTableData();
         setButtonAddNewBookListener();
         setButtonDeleteBookListener();
         setButtonEditBookListener();
+        setButtonGiveBookListener();
+        setTextFieldFindContactListener();
     }
 
+    private void setTextFieldFindContactListener() {
+        tfSearch.textProperty().addListener((observable, oldValue, newValue) -> {
+            String stringForSearch = tfSearch.getText();
+
+            if (stringForSearch.isEmpty()) {
+                tvBooks.setItems(bookObservableList);
+            } else {
+                List<Book> bookListByString = new ArrayList<>();
+                for (Book book : bookObservableList) {
+                    if (book.toStringForSearch().contains(stringForSearch))
+                        bookListByString.add(book);
+                }
+                ObservableList<Book> newList = FXCollections.observableArrayList(bookListByString);
+                tvBooks.setItems(newList);
+            }
+        });
+    }
+
+    private void setButtonGiveBookListener() {
+        btnGiveBook.setOnAction(event -> {
+            if (getSelectionItem() != null && getSelectionItem().isAvailable()) {
+                Stage stage = new Stage();
+                Parent root = null;
+                FXMLLoader loader= new FXMLLoader(getClass().getClassLoader().getResource("fxml/student/student_choose_view.fxml"));
+                try {
+                    root = loader.load();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                stage.setTitle("Оберіть студента");
+                stage.setScene(new Scene(root));
+                stage.show();
+                StudentChooseController studentChooseController = loader.getController();
+                studentChooseController.setBaseTableController(this);
+            }
+        });
+    }
 
     private void setButtonDeleteBookListener() {
         btnDeleteBook.setOnAction(event -> {
-            if (getSelectionBook() != null) {
-                bookService.deleteBook(getSelectionBook());
-                bookList.remove(getSelectedId());
+            if (getSelectionItem() != null) {
+                bookService.deleteBook(getSelectionItem());
+                bookObservableList.remove(getSelectedId());
             }
         });
     }
 
     private void setButtonEditBookListener() {
         btnEditBook.setOnAction(event -> {
-            if (getSelectionBook() != null) {
+            if (getSelectionItem() != null) {
                 Stage stage = new Stage();
                 Parent root = null;
-                FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("fxml/book/book_edit_view.fxml"));
+                FXMLLoader loader = new FXMLLoader(getClass().getClassLoader()
+                        .getResource("fxml/book/book_edit_view.fxml"));
                 try {
                     root = loader.load();
                 } catch (IOException e) {
@@ -77,7 +121,7 @@ public class BooksController implements Initializable {
                 stage.setScene(new Scene(root));
                 stage.show();
                 BookEditController bookEditController = loader.getController();
-                bookEditController.initBookInfo(getSelectionBook());
+                bookEditController.initBookInfo(getSelectionItem());
             }
         });
     }
@@ -98,22 +142,24 @@ public class BooksController implements Initializable {
         });
     }
 
-    public void initData() {
-        bookList = FXCollections.observableArrayList(bookService.getAllBooks());
+    @Override
+    public void initTableData() {
+        bookObservableList = FXCollections.observableArrayList(bookService.getAllBooks());
         tcId.setCellValueFactory(new PropertyValueFactory<Book, Integer>("id"));
         tcTitle.setCellValueFactory(new PropertyValueFactory<Book, String>("title"));
         tcAuthor.setCellValueFactory(new PropertyValueFactory<Book, String>("author"));
         tcEdition.setCellValueFactory(new PropertyValueFactory<Book, String>("edition"));
         tcYearOfPublication.setCellValueFactory(new PropertyValueFactory<Book, String>("yearOfPublication"));
         tcAvailability.setCellValueFactory(new PropertyValueFactory<Book, Boolean>("available"));
-        tvBooks.setItems(bookList);
+        tvBooks.setItems(bookObservableList);
         tvBooks.setVisible(true);
     }
 
-    private Book getSelectionBook() {
+    @Override
+    public Book getSelectionItem() {
         int id = getSelectedId();
         if (id != -1) {
-            return bookList.get(id);
+            return bookObservableList.get(id);
         } else return null;
     }
 

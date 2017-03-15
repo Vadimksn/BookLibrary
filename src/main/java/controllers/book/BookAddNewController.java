@@ -42,7 +42,7 @@ public class BookAddNewController implements Initializable {
                     tfBookEdition.getText(), tfYearOfPublication.getText());
             if (bookValidator.checkAllTextField(book)) {
                 bookService.saveBook(book);
-                booksController.initData();
+                booksController.initTableData();
                 getStage().close();
             }
         });
