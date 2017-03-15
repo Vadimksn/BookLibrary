@@ -135,4 +135,19 @@ public class BookDAO {
         }
         return list;
     }
+
+    public List<Book> getListAvailableBooks() {
+        List list = new ArrayList();
+        try (Connection connection = ConnectionService.createConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(PreparedQuery.SELECT_AVAILABLE_BOOKS)) {
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                list.add(ResultSetConverter.getBook(resultSet));
+            }
+        } catch (SQLException e) {
+            System.err.println(e.getClass().getName() + ": " + e.getMessage());
+            e.printStackTrace();
+        }
+        return list;
+    }
 }

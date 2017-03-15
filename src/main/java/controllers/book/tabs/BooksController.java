@@ -55,10 +55,10 @@ public class BooksController extends BaseTableController<Book> implements Initia
         setButtonDeleteBookListener();
         setButtonEditBookListener();
         setButtonGiveBookListener();
-        setTextFieldFindContactListener();
+        setTextFieldFindBookListener();
     }
 
-    private void setTextFieldFindContactListener() {
+    private void setTextFieldFindBookListener() {
         tfSearch.textProperty().addListener((observable, oldValue, newValue) -> {
             String stringForSearch = tfSearch.getText();
 
