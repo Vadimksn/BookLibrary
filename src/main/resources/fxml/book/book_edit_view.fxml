@@ -5,7 +5,7 @@
 <AnchorPane fx:id="apAddNewBook" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="180.0" minWidth="375.0"
             prefHeight="180.0" prefWidth="375.0" style="-fx-background-color: #d7d7d7;"
             xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="controllers.book.EditBookController">
+            fx:controller="controllers.book.BookEditController">
     <children>
         <Button fx:id="btnOk" layoutX="199.0" layoutY="275.0" maxHeight="25.0" maxWidth="75.0" minHeight="25.0"
                 minWidth="75.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="75.0" text="Ок"

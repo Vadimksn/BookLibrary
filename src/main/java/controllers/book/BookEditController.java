@@ -1,5 +1,6 @@
 package controllers.book;
 
+import controllers.book.tabs.BooksController;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -16,7 +17,7 @@ import java.util.ResourceBundle;
 /**
  * Created by Vadim on 14.03.2017.
  */
-public class EditBookController implements Initializable {
+public class BookEditController implements Initializable {
     @FXML
     private Button btnOk, btnCancel;
     @FXML
@@ -26,12 +27,8 @@ public class EditBookController implements Initializable {
 
     private BookValidator bookValidator = new BookValidator();
     private BookService bookService = new BookService();
+    private BooksController booksController = BooksController.getInstance();
     private Book book;
-    private Stage stage;
-
-    public void setStage(Stage stage) {
-        this.stage = stage;
-    }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -41,13 +38,19 @@ public class EditBookController implements Initializable {
 
     private void setBtnOkListener() {
         btnOk.setOnAction(event -> {
-            book.setTitle(tfBookTitle.getText());
-            book.setAuthor(tfBookAuthor.getText());
-            book.setEdition(tfBookEdition.getText());
-            book.setYearOfPublication(tfYearOfPublication.getText());
-            if (bookValidator.checkAllTextField(book)) {
-                bookService.updateBook(book);
-                getStage().close();
+            if (!(tfBookTitle.getText().isEmpty()
+                    || tfBookAuthor.getText().isEmpty()
+                    || tfBookEdition.getText().isEmpty()
+                    || tfYearOfPublication.getText().isEmpty())) {
+                book.setTitle(tfBookTitle.getText());
+                book.setAuthor(tfBookAuthor.getText());
+                book.setEdition(tfBookEdition.getText());
+                book.setYearOfPublication(tfYearOfPublication.getText());
+                if (bookValidator.checkAllTextField(book)) {
+                    bookService.updateBook(book);
+                    booksController.initData();
+                    getStage().close();
+                }
             }
         });
     }

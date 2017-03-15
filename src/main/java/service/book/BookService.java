@@ -9,7 +9,7 @@ import java.util.List;
 /**
  * Created by Vadim on 14.03.2017.
  */
-public class BookService implements BookServiceInterface {
+public class BookService implements IBookService {
     private BookDAO bookDAO = new BookDAO();
 
     @Override

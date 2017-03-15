@@ -1,5 +1,6 @@
 package controllers.book;
 
+import controllers.book.tabs.BooksController;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -16,7 +17,7 @@ import java.util.ResourceBundle;
 /**
  * Created by Vadim on 14.03.2017.
  */
-public class AddNewBookController implements Initializable {
+public class BookAddNewController implements Initializable {
     @FXML
     private Button btnOk, btnCancel;
     @FXML
@@ -24,8 +25,9 @@ public class AddNewBookController implements Initializable {
     @FXML
     private AnchorPane apAddNewBook;
 
-    BookValidator bookValidator = new BookValidator();
-    BookService bookService = new BookService();
+    private BooksController booksController = BooksController.getInstance();
+    private BookValidator bookValidator = new BookValidator();
+    private BookService bookService = new BookService();
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -40,6 +42,7 @@ public class AddNewBookController implements Initializable {
                     tfBookEdition.getText(), tfYearOfPublication.getText());
             if (bookValidator.checkAllTextField(book)) {
                 bookService.saveBook(book);
+                booksController.initData();
                 getStage().close();
             }
         });

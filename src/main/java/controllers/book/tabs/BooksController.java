@@ -1,5 +1,6 @@
-package controllers.book;
+package controllers.book.tabs;
 
+import controllers.book.BookEditController;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -33,12 +34,18 @@ public class BooksController implements Initializable {
     @FXML
     private TextField tfSearch;
 
+    private static BooksController instance;
     private ObservableList<Book> bookList;
     private BookService bookService = new BookService();
+
+    public static BooksController getInstance() {
+        return instance;
+    }
 
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        instance = this;
         initData();
         setButtonAddNewBookListener();
         setButtonDeleteBookListener();
@@ -60,7 +67,7 @@ public class BooksController implements Initializable {
             if (getSelectionBook() != null) {
                 Stage stage = new Stage();
                 Parent root = null;
-                FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("fxml/book/edit_book_view.fxml"));
+                FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("fxml/book/book_edit_view.fxml"));
                 try {
                     root = loader.load();
                 } catch (IOException e) {
@@ -69,19 +76,19 @@ public class BooksController implements Initializable {
                 stage.setTitle("Змінити книгу");
                 stage.setScene(new Scene(root));
                 stage.show();
-                EditBookController editBookController = loader.getController();
-                editBookController.setStage(stage);
-                editBookController.initBookInfo(getSelectionBook());
+                BookEditController bookEditController = loader.getController();
+                bookEditController.initBookInfo(getSelectionBook());
             }
         });
     }
+
 
     private void setButtonAddNewBookListener() {
         btnAddNewBook.setOnAction(event -> {
             Stage stage = new Stage();
             Parent root = null;
             try {
-                root = FXMLLoader.load(getClass().getClassLoader().getResource("fxml/book/add_new_book_view.fxml"));
+                root = FXMLLoader.load(getClass().getClassLoader().getResource("fxml/book/book_add_new_view.fxml"));
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -91,7 +98,7 @@ public class BooksController implements Initializable {
         });
     }
 
-    private void initData() {
+    public void initData() {
         bookList = FXCollections.observableArrayList(bookService.getAllBooks());
         tcId.setCellValueFactory(new PropertyValueFactory<Book, Integer>("id"));
         tcTitle.setCellValueFactory(new PropertyValueFactory<Book, String>("title"));
@@ -109,6 +116,7 @@ public class BooksController implements Initializable {
             return bookList.get(id);
         } else return null;
     }
+
 
     private int getSelectedId() {
         return tvBooks.getSelectionModel().getSelectedIndex();

@@ -8,7 +8,7 @@ import java.util.List;
 /**
  * Created by Vadim on 14.03.2017.
  */
-interface BookServiceInterface {
+interface IBookService {
 
     void saveBook(Book book);
 
