@@ -14,6 +14,7 @@ public class Book {
     private String dateOfGive;
     private String dateOfTake;
     private boolean available;
+    private int studentId;
 
     public Book() {
     }
@@ -87,6 +88,14 @@ public class Book {
 
     public void setAvailable(boolean available) {
         this.available = available;
+    }
+
+    public int getStudentId() {
+        return studentId;
+    }
+
+    public void setStudentId(int studentId) {
+        this.studentId = studentId;
     }
 
     public String toStringForSearch() {

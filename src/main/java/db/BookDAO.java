@@ -156,7 +156,7 @@ public class BookDAO {
              PreparedStatement preparedStatement = connection.prepareStatement(PreparedQuery.SELECT_NOT_AVAILABLE_BOOKS)) {
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
-                list.add(ResultSetConverter.getBook(resultSet));
+                list.add(ResultSetConverter.getNotAvailableBook(resultSet));
             }
         } catch (SQLException e) {
             System.err.println(e.getClass().getName() + ": " + e.getMessage());

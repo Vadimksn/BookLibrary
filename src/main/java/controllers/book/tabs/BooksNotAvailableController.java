@@ -16,6 +16,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import model.Book;
+import model.Student;
 import service.book.BookService;
 
 import java.io.IOException;
@@ -27,21 +28,21 @@ import java.util.ResourceBundle;
 /**
  * Created by Vadim on 15.03.2017.
  */
-public class BooksAvailableController extends BaseTableController<Book> implements Initializable {
+public class BooksNotAvailableController extends BaseTableController<Book> implements Initializable {
     @FXML
-    private TableView<Book> tvBooks;
+    private TableView<Book> tvNotAvailableBooks;
     @FXML
-    private TableColumn tcId, tcTitle, tcAuthor, tcEdition, tcYearOfPublication;
+    private TableColumn tcId, tcTitle, tcAuthor, tcEdition, tcYearOfPublication,tcStudentId,tcDateOfGive,tcDateOfTake;
     @FXML
-    private Button btnGiveBook;
+    private Button btnTakeBook;
     @FXML
     private TextField tfSearch;
 
-    private static BooksAvailableController instance;
+    private static BooksNotAvailableController instance;
     private ObservableList<Book> bookObservableList;
     private BookService bookService = new BookService();
 
-    public static BooksAvailableController getInstance() {
+    public static BooksNotAvailableController getInstance() {
         return instance;
     }
 
@@ -49,26 +50,15 @@ public class BooksAvailableController extends BaseTableController<Book> implemen
     public void initialize(URL location, ResourceBundle resources) {
         instance = this;
         initTableData();
-        setButtonGiveBookListener();
+        setButtonTakeBookListener();
         setTextFieldFindBookListener();
     }
 
-    private void setButtonGiveBookListener() {
-        btnGiveBook.setOnAction(event -> {
-            if (getSelectionItem() != null && getSelectionItem().isAvailable()) {
-                Stage stage = new Stage();
-                Parent root = null;
-                FXMLLoader loader= new FXMLLoader(getClass().getClassLoader().getResource("fxml/student/student_choose_view.fxml"));
-                try {
-                    root = loader.load();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                stage.setTitle("Оберіть студента");
-                stage.setScene(new Scene(root));
-                stage.show();
-                StudentChooseController studentChooseController = loader.getController();
-                studentChooseController.setBaseTableController(this);
+    private void setButtonTakeBookListener() {
+        btnTakeBook.setOnAction(event -> {
+            if (getSelectionItem() != null) {
+                bookService.takeBook(getSelectionItem());
+                initTableData();
             }
         });
     }
@@ -78,7 +68,7 @@ public class BooksAvailableController extends BaseTableController<Book> implemen
             String stringForSearch = tfSearch.getText();
 
             if (stringForSearch.isEmpty()) {
-                tvBooks.setItems(bookObservableList);
+                tvNotAvailableBooks.setItems(bookObservableList);
             } else {
                 List<Book> bookListByString = new ArrayList<>();
                 for (Book book : bookObservableList) {
@@ -86,21 +76,24 @@ public class BooksAvailableController extends BaseTableController<Book> implemen
                         bookListByString.add(book);
                 }
                 ObservableList<Book> newList = FXCollections.observableArrayList(bookListByString);
-                tvBooks.setItems(newList);
+                tvNotAvailableBooks.setItems(newList);
             }
         });
     }
 
     @Override
     public void initTableData() {
-        bookObservableList = FXCollections.observableArrayList(bookService.getAvailableBooks());
+        bookObservableList = FXCollections.observableArrayList(bookService.getNotAvailableBooks());
         tcId.setCellValueFactory(new PropertyValueFactory<Book, Integer>("id"));
         tcTitle.setCellValueFactory(new PropertyValueFactory<Book, String>("title"));
         tcAuthor.setCellValueFactory(new PropertyValueFactory<Book, String>("author"));
         tcEdition.setCellValueFactory(new PropertyValueFactory<Book, String>("edition"));
         tcYearOfPublication.setCellValueFactory(new PropertyValueFactory<Book, String>("yearOfPublication"));
-        tvBooks.setItems(bookObservableList);
-        tvBooks.setVisible(true);
+        tcStudentId.setCellValueFactory(new PropertyValueFactory<Book, Integer>("studentId"));
+        tcDateOfGive.setCellValueFactory(new PropertyValueFactory<Book, String>("dateOfGive"));
+        tcDateOfTake.setCellValueFactory(new PropertyValueFactory<Book, String>("dateOfTake"));
+        tvNotAvailableBooks.setItems(bookObservableList);
+        tvNotAvailableBooks.setVisible(true);
     }
 
     @Override
@@ -112,6 +105,6 @@ public class BooksAvailableController extends BaseTableController<Book> implemen
     }
 
     private int getSelectedId() {
-        return tvBooks.getSelectionModel().getSelectedIndex();
+        return tvNotAvailableBooks.getSelectionModel().getSelectedIndex();
     }
 }

@@ -45,5 +45,22 @@ public class ResultSetConverter {
         return book;
     }
 
+    public static Book getNotAvailableBook(ResultSet resultSet) throws SQLException {
+        Book book = new Book();
+
+        book.setId(resultSet.getInt("id"));
+        book.setTitle(resultSet.getString("title"));
+        book.setAuthor(resultSet.getString("author"));
+        book.setEdition(resultSet.getString("edition"));
+        book.setYearOfPublication(resultSet.getString("year_of_publication"));
+        book.setDateOfGive(resultSet.getString("date_of_give"));
+        book.setDateOfTake(resultSet.getString("date_of_take"));
+        book.setStudentId(resultSet.getInt("student_id"));
+        if (resultSet.getInt("available") == 1) {
+            book.setAvailable(true);
+        } else book.setAvailable(false);
+
+        return book;
+    }
 
 }

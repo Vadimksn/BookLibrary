@@ -23,7 +23,7 @@ public class PreparedQuery {
     static final String SELECT_BOOK_BY_ID = "SELECT * FROM Book WHERE id=?";
     static final String SELECT_ALL_BOOKS = "SELECT * FROM Book";
     static final String SELECT_AVAILABLE_BOOKS = "SELECT * FROM Book WHERE available=1";
-    static final String SELECT_NOT_AVAILABLE_BOOKS = "SELECT * FROM Book WHERE available=0";
+    static final String SELECT_NOT_AVAILABLE_BOOKS = "SELECT * FROM Book b INNER JOIN Student_books sb  on b.id=sb.book_id";
     static final String INSERT_INTO_STUDENT_BOOKS = "INSERT INTO Student_books(student_id,book_id) VALUES (?,?)";
     static final String SET_BOOK_AVAILABLE_BY_ID = "UPDATE Book SET available=?,date_of_give=?,date_of_take=? WHERE id=?";
 
