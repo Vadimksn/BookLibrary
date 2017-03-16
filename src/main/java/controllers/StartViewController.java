@@ -3,6 +3,7 @@ package controllers;
 import controllers.book.tabs.BooksAvailableController;
 import controllers.book.tabs.BooksController;
 import controllers.book.tabs.BooksNotAvailableController;
+import controllers.student.tabs.StudentsController;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Tab;
@@ -21,7 +22,8 @@ public class StartViewController implements Initializable{
     public void initialize(URL location, ResourceBundle resources) {
         setTabBooksAvailableListener();
         setTabBooksListener();
-        setTabBooksNotAvailable();
+        setTabBooksNotAvailableListener();
+        setTabStudentsListener();
     }
 
     private void setTabBooksAvailableListener(){
@@ -36,9 +38,15 @@ public class StartViewController implements Initializable{
         });
     }
 
-    private void setTabBooksNotAvailable(){
+    private void setTabBooksNotAvailableListener(){
         tabBooksNotAvailable.setOnSelectionChanged(event ->{
             BooksNotAvailableController.getInstance().initTableData();
+        });
+    }
+
+    private void setTabStudentsListener(){
+        tabStudents.setOnSelectionChanged(event ->{
+            StudentsController.getInstance().initTableData();
         });
     }
 }

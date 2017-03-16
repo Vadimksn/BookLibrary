@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<AnchorPane fx:id="apAddNewStudent" maxHeight="180.0" maxWidth="375.0" minHeight="180.0" minWidth="375.0"
+            prefHeight="180.0" prefWidth="375.0" style="-fx-background-color: #d7d7d7;"
+            xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="controllers.student.StudentAddNewController">
+    <children>
+        <Button fx:id="btnOk" layoutX="199.0" layoutY="275.0" maxHeight="25.0" maxWidth="75.0" minHeight="25.0"
+                minWidth="75.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="75.0" text="Ок"
+                AnchorPane.bottomAnchor="15.0" AnchorPane.rightAnchor="110.0"/>
+        <Button fx:id="btnCancel" layoutX="344.0" layoutY="269.0" maxHeight="25.0" maxWidth="75.0" minHeight="25.0"
+                minWidth="75.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="75.0" text="Відміна"
+                AnchorPane.bottomAnchor="15.0" AnchorPane.rightAnchor="15.0"/>
+        <TextField fx:id="tfSurname" layoutX="34.0" layoutY="21.0" prefHeight="25.0" prefWidth="259.0"
+                   promptText="Прізвище" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0"
+                   AnchorPane.topAnchor="15.0"/>
+        <TextField fx:id="tfName" layoutX="116.0" layoutY="90.0" prefHeight="25.0" prefWidth="259.0" promptText="Ім'я"
+                   AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="55.0"/>
+        <TextField fx:id="tfMiddleName" layoutX="112.0" layoutY="131.0" prefHeight="25.0" prefWidth="259.0"
+                   promptText="По батькові" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0"
+                   AnchorPane.topAnchor="95.0"/>
+        <TextField fx:id="tfPassportData" maxHeight="25.0" maxWidth="120.0" minHeight="25.0" minWidth="120.0"
+                   prefHeight="25.0" prefWidth="120.0" promptText="Паспортні дані" AnchorPane.bottomAnchor="15.0"
+                   AnchorPane.leftAnchor="15.0"/>
+    </children>
+</AnchorPane>

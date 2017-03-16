@@ -14,7 +14,6 @@
    <children>
       <Button fx:id="btnOk" layoutX="199.0" layoutY="275.0" maxHeight="25.0" maxWidth="75.0" minHeight="25.0" minWidth="75.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="75.0" text="Ок" AnchorPane.bottomAnchor="15.0" AnchorPane.rightAnchor="110.0" />
       <Button fx:id="btnCancel" layoutX="344.0" layoutY="269.0" maxHeight="25.0" maxWidth="75.0" minHeight="25.0" minWidth="75.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="75.0" text="Відміна" AnchorPane.bottomAnchor="15.0" AnchorPane.rightAnchor="15.0" />
-      <DatePicker fx:id="dpRegistrationDate" layoutX="220.0" layoutY="55.0" prefHeight="25.0" prefWidth="200.0" promptText="Дата реєстрації" AnchorPane.leftAnchor="220.0" AnchorPane.topAnchor="55.0" />
       <TextField fx:id="tfSurname" layoutX="30.0" layoutY="67.0" prefHeight="25.0" prefWidth="200.0" promptText="Прізвище" AnchorPane.leftAnchor="15.0" AnchorPane.topAnchor="15.0" />
       <TextField fx:id="tfName" layoutX="204.0" layoutY="67.0" prefHeight="25.0" prefWidth="200.0" promptText="Ім'я" AnchorPane.leftAnchor="220.0" AnchorPane.rightAnchor="220.0" AnchorPane.topAnchor="15.0" />
       <TextField fx:id="tfMiddleName" layoutX="378.0" layoutY="67.0" prefHeight="25.0" prefWidth="200.0" promptText="По батькові" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="15.0" />
@@ -32,5 +31,6 @@
          </columns>
       </TableView>
       <Button fx:id="btnTakeBook" layoutX="115.0" layoutY="363.0" maxHeight="25.0" maxWidth="90.0" minHeight="25.0" minWidth="90.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="90.0" text="Здати книгу" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="15.0" />
+      <TextField fx:id="tfRegistrationDate" editable="false" layoutX="225.0" layoutY="55.0" prefHeight="25.0" prefWidth="200.0" promptText="Дата реєстрації" AnchorPane.leftAnchor="220.0" AnchorPane.topAnchor="55.0" />
    </children>
 </AnchorPane>

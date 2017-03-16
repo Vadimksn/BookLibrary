@@ -1,32 +1,42 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.TableColumn?>
-<?import javafx.scene.control.TableView?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.layout.AnchorPane?>
-
-<AnchorPane prefHeight="352.0" prefWidth="865.0" style="-fx-background-color: #d7d7d7;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane prefHeight="352.0" prefWidth="865.0" style="-fx-background-color: #d7d7d7;"
+            xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="controllers.student.tabs.StudentsController">
     <children>
-        <Button fx:id="btnStudentInfo" layoutX="311.0" layoutY="418.0" minHeight="25.0" minWidth="101.0" mnemonicParsing="false" text="Інформація читача" AnchorPane.bottomAnchor="15.0" AnchorPane.rightAnchor="317.0" />
-        <Button fx:id="btnAddNewStudent" layoutX="214.0" layoutY="418.0" minHeight="25.0" minWidth="97.0" mnemonicParsing="false" text="Додати читача" textFill="#048010" AnchorPane.bottomAnchor="15.0" AnchorPane.rightAnchor="453.0" />
-        <Button fx:id="btnDeleteStudent" layoutX="412.0" layoutY="418.0" minHeight="25.0" minWidth="109.0" mnemonicParsing="false" text="Видалити читача" textFill="RED" AnchorPane.bottomAnchor="15.0" AnchorPane.rightAnchor="193.0" />
-        <TableView fx:id="tvStudents" prefHeight="471.0" prefWidth="683.0" AnchorPane.bottomAnchor="55.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <Button fx:id="btnStudentInfo" layoutX="311.0" layoutY="418.0" minHeight="25.0" minWidth="101.0"
+                mnemonicParsing="false" text="Інформація читача" AnchorPane.bottomAnchor="15.0"
+                AnchorPane.rightAnchor="317.0"/>
+        <Button fx:id="btnStudentAddNew" layoutX="214.0" layoutY="418.0" minHeight="25.0" minWidth="97.0"
+                mnemonicParsing="false" text="Додати читача" textFill="#048010" AnchorPane.bottomAnchor="15.0"
+                AnchorPane.rightAnchor="453.0"/>
+        <Button fx:id="btnDeleteStudent" layoutX="412.0" layoutY="418.0" minHeight="25.0" minWidth="109.0"
+                mnemonicParsing="false" text="Видалити читача" textFill="RED" AnchorPane.bottomAnchor="15.0"
+                AnchorPane.rightAnchor="193.0"/>
+        <TableView fx:id="tvStudents" prefHeight="471.0" prefWidth="683.0" AnchorPane.bottomAnchor="55.0"
+                   AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
             <columns>
-                <TableColumn editable="false" maxWidth="100.0" minWidth="75.0" prefWidth="75.0" text="ID" />
-                <TableColumn editable="false" maxWidth="1.7976931348623157E308" minWidth="200.0" prefWidth="200.0" text="Прізвище" />
-                <TableColumn editable="false" maxWidth="1.7976931348623157E308" minWidth="200.0" prefWidth="200.0" text="Ім'я" />
-                <TableColumn editable="false" maxWidth="1.7976931348623157E308" minWidth="200.0" prefWidth="200.0" text="По батькові" />
-                <TableColumn editable="false" maxWidth="150.0" minWidth="150.0" prefWidth="150.0" text="Дата реєстрації" />
+                <TableColumn fx:id="tcId" editable="false" maxWidth="100.0" minWidth="75.0" prefWidth="75.0" text="ID"/>
+                <TableColumn fx:id="tcSurname" editable="false" maxWidth="1.7976931348623157E308" minWidth="200.0"
+                             prefWidth="200.0" text="Прізвище"/>
+                <TableColumn fx:id="tcName" editable="false" maxWidth="1.7976931348623157E308" minWidth="200.0"
+                             prefWidth="200.0" text="Ім'я"/>
+                <TableColumn fx:id="tcMiddleName" editable="false" maxWidth="1.7976931348623157E308" minWidth="200.0"
+                             prefWidth="200.0" text="По батькові"/>
+                <TableColumn fx:id="tcRegistrationDate" editable="false" maxWidth="150.0" minWidth="150.0"
+                             prefWidth="150.0" text="Дата реєстрації"/>
             </columns>
             <columnResizePolicy>
-                <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
             </columnResizePolicy>
         </TableView>
-        <Button fx:id="btnAddToBlacklist" layoutX="562.0" layoutY="418.0" minHeight="25.0" minWidth="163.0" mnemonicParsing="false" text="Додати до чорного списку" textFill="RED" AnchorPane.bottomAnchor="15.0" AnchorPane.rightAnchor="15.0" />
-        <TextField fx:id="tfSearch" layoutX="127.0" layoutY="431.0" maxHeight="25.0" maxWidth="1.7976931348623157E308" minHeight="25.0" minWidth="103.0" prefHeight="25.0" prefWidth="103.0" promptText="Пошук" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="565.0" />
+        <Button fx:id="btnAddToBlacklist" layoutX="562.0" layoutY="418.0" minHeight="25.0" minWidth="163.0"
+                mnemonicParsing="false" text="Додати до чорного списку" textFill="RED" AnchorPane.bottomAnchor="15.0"
+                AnchorPane.rightAnchor="15.0"/>
+        <TextField fx:id="tfSearch" layoutX="127.0" layoutY="431.0" maxHeight="25.0" maxWidth="1.7976931348623157E308"
+                   minHeight="25.0" minWidth="103.0" prefHeight="25.0" prefWidth="103.0" promptText="Пошук"
+                   AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="565.0"/>
     </children>
 </AnchorPane>
