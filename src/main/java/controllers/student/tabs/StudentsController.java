@@ -1,6 +1,7 @@
 package controllers.student.tabs;
 
 import controllers.BaseTableController;
+import controllers.student.StudentInfoController;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -52,6 +53,30 @@ public class StudentsController extends BaseTableController<Student> implements 
         setButtonDeleteStudentListener();
         setButtonStudentAddToBlacklistListener();
         setButtonAddNewBookListener();
+        setButtonStudentInfoListener();
+    }
+
+    private void setButtonStudentInfoListener() {
+        btnStudentInfo.setOnAction(event -> {
+            if (getSelectionItem() != null) {
+                Stage stage = new Stage();
+                Parent root = null;
+                FXMLLoader loader = new FXMLLoader(getClass().getClassLoader()
+                        .getResource("fxml/student/student_info_view.fxml"));
+                try {
+                    root = loader.load();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                stage.setTitle("Інформація читача");
+                stage.setScene(new Scene(root));
+                stage.show();
+                StudentInfoController studentInfoController = loader.getController();
+                studentInfoController.setStudent(getSelectionItem());
+                studentInfoController.initStudentInfo(getSelectionItem());
+
+            }
+        });
     }
 
     private void setButtonAddNewBookListener() {

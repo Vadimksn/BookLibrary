@@ -58,7 +58,8 @@ public class BooksAvailableController extends BaseTableController<Book> implemen
             if (getSelectionItem() != null && getSelectionItem().isAvailable()) {
                 Stage stage = new Stage();
                 Parent root = null;
-                FXMLLoader loader= new FXMLLoader(getClass().getClassLoader().getResource("fxml/student/student_choose_view.fxml"));
+                FXMLLoader loader = new FXMLLoader(getClass().getClassLoader()
+                        .getResource("fxml/student/student_choose_view.fxml"));
                 try {
                     root = loader.load();
                 } catch (IOException e) {

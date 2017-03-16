@@ -82,7 +82,25 @@ public class StudentDAO {
         List list = new ArrayList();
 
         try (Connection connection = ConnectionService.createConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(PreparedQuery.SELECT_ALL_STUDENTS)) {
+             PreparedStatement preparedStatement = connection.prepareStatement(PreparedQuery.SELECT_STUDENTS)) {
+            preparedStatement.setInt(1,0);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                list.add(ResultSetConverter.getStudent(resultSet));
+            }
+        } catch (Exception e) {
+            System.err.println(e.getClass().getName() + ": " + e.getMessage());
+            e.printStackTrace();
+        }
+        return list;
+    }
+
+    public List<Student> getStudentsBlacklist() {
+        List list = new ArrayList();
+
+        try (Connection connection = ConnectionService.createConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(PreparedQuery.SELECT_STUDENTS)) {
+            preparedStatement.setInt(1,1);
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
                 list.add(ResultSetConverter.getStudent(resultSet));

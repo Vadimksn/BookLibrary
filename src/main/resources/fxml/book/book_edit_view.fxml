@@ -2,7 +2,7 @@
 
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<AnchorPane fx:id="apAddNewBook" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="180.0" minWidth="375.0"
+<AnchorPane fx:id="apBookEdit" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="180.0" minWidth="375.0"
             prefHeight="180.0" prefWidth="375.0" style="-fx-background-color: #d7d7d7;"
             xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="controllers.book.BookEditController">

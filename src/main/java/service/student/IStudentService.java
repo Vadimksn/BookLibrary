@@ -23,6 +23,7 @@ interface IStudentService {
     Student getStudentById(int id);
 
     List<Student> getAllStudents();
+    List<Student> getStudentsBlacklist();
 
     List<Book> getStudentBookList(Student student);
 }

@@ -23,7 +23,7 @@ public class BookEditController implements Initializable {
     @FXML
     private TextField tfBookTitle, tfBookEdition, tfBookAuthor, tfYearOfPublication;
     @FXML
-    private AnchorPane apAddNewBook;
+    private AnchorPane apBookEdit;
 
     private BookValidator bookValidator = new BookValidator();
     private BookService bookService = new BookService();
@@ -70,6 +70,6 @@ public class BookEditController implements Initializable {
     }
 
     private Stage getStage() {
-        return ((Stage) apAddNewBook.getScene().getWindow());
+        return ((Stage) apBookEdit.getScene().getWindow());
     }
 }
