@@ -11,7 +11,7 @@ public class PreparedQuery {
     static final String UPDATE_STUDENT_BY_ID = "UPDATE Student SET name=?,surname=?,middle_name=?,passport_data=? WHERE id=?";
     static final String SELECT_STUDENT_BY_ID = "SELECT * FROM Student WHERE id=?";
     static final String SELECT_STUDENTS = "SELECT * FROM Student WHERE blacklist=?";
-    static final String ADD_STUDENT_TO_BLACKLIST_BY_ID = "UPDATE Student SET blacklist=1 WHERE id=?";
+    static final String ADD_STUDENT_TO_BLACKLIST_BY_ID = "UPDATE Student SET blacklist=1,blacklist_date=? WHERE id=?";
     static final String DELETE_STUDENT_FROM_BLACKLIST_BY_ID = "UPDATE Student SET blacklist=0 WHERE id=?";
     static final String SELECT_STUDENT_BOOKS = "SELECT * from Book b INNER JOIN Student_books sb on b.id=sb.book_id and sb.student_id=?";
 

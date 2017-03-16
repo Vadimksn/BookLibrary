@@ -3,11 +3,13 @@ package db;
 import model.Book;
 import model.Student;
 import service.ConnectionService;
+import utils.PropertiesHolder;
 import utils.converter.ResultSetConverter;
 
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
+import java.text.SimpleDateFormat;
+import java.util.*;
+import java.util.Date;
 
 /**
  * Created by Vadim on 27.02.2017.
@@ -83,7 +85,7 @@ public class StudentDAO {
 
         try (Connection connection = ConnectionService.createConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(PreparedQuery.SELECT_STUDENTS)) {
-            preparedStatement.setInt(1,0);
+            preparedStatement.setInt(1, 0);
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
                 list.add(ResultSetConverter.getStudent(resultSet));
@@ -100,7 +102,7 @@ public class StudentDAO {
 
         try (Connection connection = ConnectionService.createConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(PreparedQuery.SELECT_STUDENTS)) {
-            preparedStatement.setInt(1,1);
+            preparedStatement.setInt(1, 1);
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
                 list.add(ResultSetConverter.getStudent(resultSet));
@@ -113,10 +115,13 @@ public class StudentDAO {
     }
 
     public void addToBlackList(Student student) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat(PropertiesHolder.getProperty("DATE_FORMAT"));
+
         try (Connection connection = ConnectionService.createConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(PreparedQuery.ADD_STUDENT_TO_BLACKLIST_BY_ID)) {
             connection.setAutoCommit(false);
-            preparedStatement.setInt(1, student.getId());
+            preparedStatement.setString(1, dateFormat.format(new Date()));
+            preparedStatement.setInt(2, student.getId());
             preparedStatement.execute();
             connection.commit();
         } catch (Exception e) {

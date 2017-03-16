@@ -3,6 +3,7 @@ package controllers;
 import controllers.book.tabs.BooksAvailableController;
 import controllers.book.tabs.BooksController;
 import controllers.book.tabs.BooksNotAvailableController;
+import controllers.student.tabs.StudentsBlacklistController;
 import controllers.student.tabs.StudentsController;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -24,6 +25,7 @@ public class StartViewController implements Initializable{
         setTabBooksListener();
         setTabBooksNotAvailableListener();
         setTabStudentsListener();
+        setTabStudentsBlackListListener();
     }
 
     private void setTabBooksAvailableListener(){
@@ -47,6 +49,12 @@ public class StartViewController implements Initializable{
     private void setTabStudentsListener(){
         tabStudents.setOnSelectionChanged(event ->{
             StudentsController.getInstance().initTableData();
+        });
+    }
+
+    private void setTabStudentsBlackListListener(){
+        tabStudentsBlackList.setOnSelectionChanged(event ->{
+            StudentsBlacklistController.getInstance().initTableData();
         });
     }
 }
