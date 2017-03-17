@@ -23,6 +23,8 @@ interface IBookService {
 
     List<Book> getNotAvailableBooks();
 
+    List<Book> getBookListByStudent(Student student);
+
     Book getBookById(int id);
 
 }

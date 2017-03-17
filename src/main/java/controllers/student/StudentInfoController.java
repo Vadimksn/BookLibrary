@@ -47,7 +47,7 @@ public class StudentInfoController extends BaseTableController<Book> implements 
 
     @Override
     public void initTableData() {
-        observableList = FXCollections.observableArrayList(studentService.getStudentBookList(student));
+        observableList = FXCollections.observableArrayList(bookService.getBookListByStudent(student));
         tcId.setCellValueFactory(new PropertyValueFactory<Book, Integer>("id"));
         tcTitle.setCellValueFactory(new PropertyValueFactory<Book, String>("title"));
         tcAuthor.setCellValueFactory(new PropertyValueFactory<Book, String>("author"));
@@ -97,10 +97,6 @@ public class StudentInfoController extends BaseTableController<Book> implements 
         btnCancel.setOnAction(event -> {
             getStage().close();
         });
-    }
-
-    public void setStudent(Student student) {
-        this.student = student;
     }
 
     public void initStudentInfo(Student student) {

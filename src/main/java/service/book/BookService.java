@@ -50,6 +50,11 @@ public class BookService implements IBookService {
     }
 
     @Override
+    public List<Book> getBookListByStudent(Student student) {
+        return bookDAO.getBookListByStudent(student);
+    }
+
+    @Override
     public Book getBookById(int id) {
         return bookDAO.getBookById(id);
     }

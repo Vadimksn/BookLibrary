@@ -49,8 +49,4 @@ public class StudentService implements IStudentService {
         return studentDAO.getStudentsBlacklist();
     }
 
-    @Override
-    public List<Book> getStudentBookList(Student student) {
-        return studentDAO.getStudentBookList(student);
-    }
 }

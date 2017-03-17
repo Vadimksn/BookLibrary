@@ -122,7 +122,7 @@ public class BookDAO {
     }
 
     public List<Book> getListAllBooks() {
-        List list = new ArrayList();
+        List<Book> list = new ArrayList();
         try (Connection connection = ConnectionService.createConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(PreparedQuery.SELECT_ALL_BOOKS)) {
             ResultSet resultSet = preparedStatement.executeQuery();
@@ -137,7 +137,7 @@ public class BookDAO {
     }
 
     public List<Book> getListAvailableBooks() {
-        List list = new ArrayList();
+        List<Book> list = new ArrayList();
         try (Connection connection = ConnectionService.createConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(PreparedQuery.SELECT_AVAILABLE_BOOKS)) {
             ResultSet resultSet = preparedStatement.executeQuery();
@@ -152,7 +152,7 @@ public class BookDAO {
     }
 
     public List<Book> getListNotAvailableBooks() {
-        List list = new ArrayList();
+        List<Book> list = new ArrayList();
         try (Connection connection = ConnectionService.createConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(PreparedQuery.SELECT_NOT_AVAILABLE_BOOKS)) {
             ResultSet resultSet = preparedStatement.executeQuery();
@@ -160,6 +160,22 @@ public class BookDAO {
                 list.add(ResultSetConverter.getNotAvailableBook(resultSet));
             }
         } catch (SQLException e) {
+            System.err.println(e.getClass().getName() + ": " + e.getMessage());
+            e.printStackTrace();
+        }
+        return list;
+    }
+
+    public List<Book> getBookListByStudent(Student student) {
+        List<Book> list = new ArrayList();
+        try (Connection connection = ConnectionService.createConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(PreparedQuery.SELECT_BOOKS_BY_STUDENT)) {
+            preparedStatement.setInt(1, student.getId());
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                list.add(ResultSetConverter.getBook(resultSet));
+            }
+        } catch (Exception e) {
             System.err.println(e.getClass().getName() + ": " + e.getMessage());
             e.printStackTrace();
         }

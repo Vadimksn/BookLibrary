@@ -23,5 +23,4 @@ interface IStudentService {
 
     List<Student> getStudentsBlacklist();
 
-    List<Book> getStudentBookList(Student student);
 }

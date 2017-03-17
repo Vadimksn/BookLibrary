@@ -88,7 +88,6 @@ public class StudentsController extends BaseTableController<Student> implements 
                 stage.setScene(new Scene(root));
                 stage.show();
                 StudentInfoController studentInfoController = loader.getController();
-                studentInfoController.setStudent(getSelectionItem());
                 studentInfoController.initStudentInfo(getSelectionItem());
 
             }
@@ -112,7 +111,7 @@ public class StudentsController extends BaseTableController<Student> implements 
 
     private void setButtonDeleteStudentListener() {
         btnDeleteStudent.setOnAction(event -> {
-            if (getSelectionItem() != null) {
+            if (getSelectionItem() != null && bookService.getBookListByStudent(getSelectionItem()).size() == 0) {
                 studentService.deleteStudent(getSelectionItem());
                 observableList.remove(getSelectedId());
             }
@@ -121,7 +120,7 @@ public class StudentsController extends BaseTableController<Student> implements 
 
     private void setButtonStudentAddToBlacklistListener() {
         btnAddToBlacklist.setOnAction(event -> {
-            if (getSelectionItem() != null) {
+            if (getSelectionItem() != null && bookService.getBookListByStudent(getSelectionItem()).size() == 0) {
                 studentService.addStudentToBlacklist(getSelectionItem());
                 observableList.remove(getSelectedId());
             }

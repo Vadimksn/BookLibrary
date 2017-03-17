@@ -1,6 +1,5 @@
 package db;
 
-import model.Book;
 import model.Student;
 import service.ConnectionService;
 import utils.PropertiesHolder;
@@ -82,7 +81,7 @@ public class StudentDAO {
     }
 
     public List<Student> getListAllStudents() {
-        List list = new ArrayList();
+        List<Student> list = new ArrayList();
 
         try (Connection connection = ConnectionService.createConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(PreparedQuery.SELECT_STUDENTS)) {
@@ -99,7 +98,7 @@ public class StudentDAO {
     }
 
     public List<Student> getStudentsBlacklist() {
-        List list = new ArrayList();
+        List<Student> list = new ArrayList();
 
         try (Connection connection = ConnectionService.createConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(PreparedQuery.SELECT_STUDENTS)) {
@@ -135,7 +134,8 @@ public class StudentDAO {
         try (Connection connection = ConnectionService.createConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(PreparedQuery.DELETE_STUDENT_FROM_BLACKLIST_BY_ID)) {
             connection.setAutoCommit(false);
-            preparedStatement.setInt(1, student.getId());
+            preparedStatement.setString(1, "");
+            preparedStatement.setInt(2, student.getId());
             preparedStatement.execute();
             connection.commit();
         } catch (Exception e) {
@@ -143,22 +143,4 @@ public class StudentDAO {
             e.printStackTrace();
         }
     }
-
-    public List<Book> getStudentBookList(Student student) {
-        List list = new ArrayList();
-        try (Connection connection = ConnectionService.createConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(PreparedQuery.SELECT_STUDENT_BOOKS)) {
-            preparedStatement.setInt(1, student.getId());
-            ResultSet resultSet = preparedStatement.executeQuery();
-            while (resultSet.next()) {
-                list.add(ResultSetConverter.getBook(resultSet));
-            }
-        } catch (Exception e) {
-            System.err.println(e.getClass().getName() + ": " + e.getMessage());
-            e.printStackTrace();
-        }
-        return list;
-    }
-
-
 }
