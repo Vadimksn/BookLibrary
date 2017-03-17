@@ -5,9 +5,6 @@ import model.Student;
 
 import java.util.List;
 
-/**
- * Created by Vadim on 15.03.2017.
- */
 interface IStudentService {
 
     void saveStudent(Student student);
@@ -23,6 +20,7 @@ interface IStudentService {
     Student getStudentById(int id);
 
     List<Student> getAllStudents();
+
     List<Student> getStudentsBlacklist();
 
     List<Book> getStudentBookList(Student student);

@@ -5,14 +5,9 @@ import utils.PropertiesHolder;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
-import java.util.Properties;
 
-/**
- * Created by Vadim on 08.11.2016.
- */
-public class Student {
+public class Student extends LibraryModel {
 
-    private int id;
     private String name;
     private String surname;
     private String middleName;
@@ -30,14 +25,6 @@ public class Student {
         this.surname = surname;
         this.middleName = middleName;
         this.passportData = passportData;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     public String getName() {

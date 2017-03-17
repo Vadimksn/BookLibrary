@@ -1,12 +1,7 @@
 package model;
 
+public class Book  extends LibraryModel {
 
-/**
- * Created by Vadim on 08.11.2016.
- */
-public class Book {
-
-    private int id;
     private String title;
     private String author;
     private String edition;
@@ -24,14 +19,6 @@ public class Book {
         this.author = author;
         this.edition = edition;
         this.yearOfPublication = yearOfPublication;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     public String getTitle() {

@@ -3,7 +3,6 @@ package controllers.student;
 import controllers.BaseTableController;
 import controllers.student.tabs.StudentsController;
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -15,16 +14,11 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import model.Book;
 import model.Student;
-import service.book.BookService;
-import service.student.StudentService;
 import validators.StudentValidator;
 
 import java.net.URL;
 import java.util.ResourceBundle;
 
-/**
- * Created by Vadim on 16.03.2017.
- */
 public class StudentInfoController extends BaseTableController<Book> implements Initializable {
     @FXML
     private Button btnOk, btnCancel, btnTakeBook;
@@ -35,45 +29,39 @@ public class StudentInfoController extends BaseTableController<Book> implements 
     @FXML
     private AnchorPane apStudentInfo;
     @FXML
-    private TableView tvBooks;
+    private TableView<Book> tvBooks;
 
     private StudentsController studentsController = StudentsController.getInstance();
     private StudentValidator studentValidator = new StudentValidator();
-    private StudentService studentService = new StudentService();
-    private ObservableList<Book> bookObservableList;
     private Student student;
-    private BookService bookService = new BookService();
+
+    @Override
+    protected TableView<Book> getTableView() {
+        return tvBooks;
+    }
+
+    @Override
+    protected TextField getTextFieldSearch() {
+        return null;
+    }
+
+    @Override
+    public void initTableData() {
+        observableList = FXCollections.observableArrayList(studentService.getStudentBookList(student));
+        tcId.setCellValueFactory(new PropertyValueFactory<Book, Integer>("id"));
+        tcTitle.setCellValueFactory(new PropertyValueFactory<Book, String>("title"));
+        tcAuthor.setCellValueFactory(new PropertyValueFactory<Book, String>("author"));
+        tcDateOfGive.setCellValueFactory(new PropertyValueFactory<Book, String>("dateOfGive"));
+        tcDateOfTake.setCellValueFactory(new PropertyValueFactory<Book, String>("dateOfTake"));
+        tvBooks.setItems(observableList);
+        tvBooks.setVisible(true);
+    }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         setBtnCancelListener();
         setBtnOkListener();
         setButtonTakeBookListener();
-    }
-
-
-    @Override
-    public void initTableData() {
-        bookObservableList = FXCollections.observableArrayList(studentService.getStudentBookList(student));
-        tcId.setCellValueFactory(new PropertyValueFactory<Book, Integer>("id"));
-        tcTitle.setCellValueFactory(new PropertyValueFactory<Book, String>("title"));
-        tcAuthor.setCellValueFactory(new PropertyValueFactory<Book, String>("author"));
-        tcDateOfGive.setCellValueFactory(new PropertyValueFactory<Book, String>("dateOfGive"));
-        tcDateOfTake.setCellValueFactory(new PropertyValueFactory<Book, String>("dateOfTake"));
-        tvBooks.setItems(bookObservableList);
-        tvBooks.setVisible(true);
-    }
-
-    @Override
-    public Book getSelectionItem() {
-        int id = getSelectedId();
-        if (id != -1) {
-            return bookObservableList.get(id);
-        } else return null;
-    }
-
-    private int getSelectedId() {
-        return tvBooks.getSelectionModel().getSelectedIndex();
     }
 
     private void setButtonTakeBookListener() {

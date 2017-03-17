@@ -6,16 +6,16 @@ import service.ConnectionService;
 import utils.PropertiesHolder;
 import utils.converter.ResultSetConverter;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-/**
- * Created by Vadim on 28.02.2017.
- */
 public class BookDAO {
 
     public void save(Book book) {
@@ -150,6 +150,7 @@ public class BookDAO {
         }
         return list;
     }
+
     public List<Book> getListNotAvailableBooks() {
         List list = new ArrayList();
         try (Connection connection = ConnectionService.createConnection();

@@ -14,9 +14,6 @@ import validators.StudentValidator;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-/**
- * Created by Vadim on 16.03.2017.
- */
 public class StudentAddNewController implements Initializable {
     @FXML
     private Button btnOk, btnCancel;

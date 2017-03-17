@@ -1,8 +1,5 @@
 package db;
 
-/**
- * Created by Vadim on 07.03.2017.
- */
 public class PreparedQuery {
 
     static final String INSERT_STUDENT = "INSERT INTO Student (name,surname,middle_name,passport_data,registration_date," +

@@ -3,9 +3,6 @@ package utils;
 import java.io.IOException;
 import java.util.Properties;
 
-/**
- * Created by Vadim on 07.03.2017.
- */
 public class PropertiesHolder {
 
     private static final String APP_PROPERTIES_PATH = "/properties/constants.properties";

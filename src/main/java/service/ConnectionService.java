@@ -5,9 +5,6 @@ import utils.PropertiesHolder;
 import java.sql.Connection;
 import java.sql.DriverManager;
 
-/**
- * Created by Vadim on 06.03.2017.
- */
 public class ConnectionService {
 
     public static Connection createConnection() {

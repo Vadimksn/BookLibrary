@@ -2,8 +2,9 @@ package controllers.book.tabs;
 
 import controllers.BaseTableController;
 import controllers.student.StudentChooseController;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -16,17 +17,11 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import model.Book;
-import service.book.BookService;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.ResourceBundle;
 
-/**
- * Created by Vadim on 15.03.2017.
- */
 public class BooksAvailableController extends BaseTableController<Book> implements Initializable {
     @FXML
     private TableView<Book> tvBooks;
@@ -38,11 +33,31 @@ public class BooksAvailableController extends BaseTableController<Book> implemen
     private TextField tfSearch;
 
     private static BooksAvailableController instance;
-    private ObservableList<Book> bookObservableList;
-    private BookService bookService = new BookService();
 
     public static BooksAvailableController getInstance() {
         return instance;
+    }
+
+    @Override
+    protected TableView<Book> getTableView() {
+        return tvBooks;
+    }
+
+    @Override
+    protected TextField getTextFieldSearch() {
+        return tfSearch;
+    }
+
+    @Override
+    public void initTableData() {
+        observableList = FXCollections.observableArrayList(bookService.getAvailableBooks());
+        tcId.setCellValueFactory(new PropertyValueFactory<Book, Integer>("id"));
+        tcTitle.setCellValueFactory(new PropertyValueFactory<Book, String>("title"));
+        tcAuthor.setCellValueFactory(new PropertyValueFactory<Book, String>("author"));
+        tcEdition.setCellValueFactory(new PropertyValueFactory<Book, String>("edition"));
+        tcYearOfPublication.setCellValueFactory(new PropertyValueFactory<Book, String>("yearOfPublication"));
+        tvBooks.setItems(observableList);
+        tvBooks.setVisible(true);
     }
 
     @Override
@@ -75,44 +90,13 @@ public class BooksAvailableController extends BaseTableController<Book> implemen
     }
 
     private void setTextFieldFindBookListener() {
-        tfSearch.textProperty().addListener((observable, oldValue, newValue) -> {
-            String stringForSearch = tfSearch.getText();
-
-            if (stringForSearch.isEmpty()) {
-                tvBooks.setItems(bookObservableList);
-            } else {
-                List<Book> bookListByString = new ArrayList<>();
-                for (Book book : bookObservableList) {
-                    if (book.toStringForSearch().contains(stringForSearch))
-                        bookListByString.add(book);
-                }
-                ObservableList<Book> newList = FXCollections.observableArrayList(bookListByString);
-                tvBooks.setItems(newList);
+        tfSearch.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                search();
             }
         });
     }
 
-    @Override
-    public void initTableData() {
-        bookObservableList = FXCollections.observableArrayList(bookService.getAvailableBooks());
-        tcId.setCellValueFactory(new PropertyValueFactory<Book, Integer>("id"));
-        tcTitle.setCellValueFactory(new PropertyValueFactory<Book, String>("title"));
-        tcAuthor.setCellValueFactory(new PropertyValueFactory<Book, String>("author"));
-        tcEdition.setCellValueFactory(new PropertyValueFactory<Book, String>("edition"));
-        tcYearOfPublication.setCellValueFactory(new PropertyValueFactory<Book, String>("yearOfPublication"));
-        tvBooks.setItems(bookObservableList);
-        tvBooks.setVisible(true);
-    }
 
-    @Override
-    public Book getSelectionItem() {
-        int id = getSelectedId();
-        if (id != -1) {
-            return bookObservableList.get(id);
-        } else return null;
-    }
-
-    private int getSelectedId() {
-        return tvBooks.getSelectionModel().getSelectedIndex();
-    }
 }

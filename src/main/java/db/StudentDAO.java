@@ -6,14 +6,15 @@ import service.ConnectionService;
 import utils.PropertiesHolder;
 import utils.converter.ResultSetConverter;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
-/**
- * Created by Vadim on 27.02.2017.
- */
 public class StudentDAO {
 
     public void save(Student student) {

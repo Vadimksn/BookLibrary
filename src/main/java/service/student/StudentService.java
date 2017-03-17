@@ -6,13 +6,8 @@ import model.Student;
 
 import java.util.List;
 
-/**
- * Created by Vadim on 15.03.2017.
- */
 public class StudentService implements IStudentService {
-    StudentDAO studentDAO = new StudentDAO();
-
-
+    private StudentDAO studentDAO = new StudentDAO();
 
     @Override
     public void saveStudent(Student student) {

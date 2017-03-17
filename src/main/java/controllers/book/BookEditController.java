@@ -14,9 +14,6 @@ import validators.BookValidator;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-/**
- * Created by Vadim on 14.03.2017.
- */
 public class BookEditController implements Initializable {
     @FXML
     private Button btnOk, btnCancel;

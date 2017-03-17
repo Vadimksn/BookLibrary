@@ -6,9 +6,6 @@ import model.Student;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-/**
- * Created by Vadim on 06.03.2017.
- */
 public class ResultSetConverter {
 
     public static Student getStudent(ResultSet resultSet) throws SQLException {
