@@ -6,19 +6,17 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.stage.Stage;
 import model.Student;
+import utils.ui.UiPathConstants;
+import utils.ui.UiTitleConstants;
+import utils.ui.ViewUtil;
 
-import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -65,73 +63,35 @@ public class StudentsController extends BaseTableController<Student> implements 
     public void initialize(URL location, ResourceBundle resources) {
         instance = this;
         initTableData();
-        setTextFieldFindBookListener();
-        setButtonDeleteStudentListener();
-        setButtonStudentAddToBlacklistListener();
-        setButtonAddNewBookListener();
-        setButtonStudentInfoListener();
+        initListeners();
     }
 
-    private void setButtonStudentInfoListener() {
+    private void initListeners() {
+        tfSearch.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                search();
+            }
+        });
         btnStudentInfo.setOnAction(event -> {
             if (getSelectionItem() != null) {
-                Stage stage = new Stage();
-                Parent root = null;
-                FXMLLoader loader = new FXMLLoader(getClass().getClassLoader()
-                        .getResource("fxml/student/student_info_view.fxml"));
-                try {
-                    root = loader.load();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                stage.setTitle("Інформація читача");
-                stage.setScene(new Scene(root));
-                stage.show();
-                StudentInfoController studentInfoController = loader.getController();
-                studentInfoController.initStudentInfo(getSelectionItem());
-
+                ViewUtil.showView(UiPathConstants.STUDENT_INFO_PATH, UiTitleConstants.STUDENT_INFO_TITTLE);
+                StudentInfoController.getInstance().initStudentInfo(getSelectionItem());
             }
         });
-    }
-
-    private void setButtonAddNewBookListener() {
         btnStudentAddNew.setOnAction(event -> {
-            Stage stage = new Stage();
-            Parent root = null;
-            try {
-                root = FXMLLoader.load(getClass().getClassLoader().getResource("fxml/student/student_add_new_view.fxml"));
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            stage.setTitle("Додати нового читача");
-            stage.setScene(new Scene(root));
-            stage.show();
+            ViewUtil.showView(UiPathConstants.STUDENT_ADD_NEW_PATH,UiTitleConstants.STUDENT_ADD_NEW_TITTLE);
         });
-    }
-
-    private void setButtonDeleteStudentListener() {
         btnDeleteStudent.setOnAction(event -> {
             if (getSelectionItem() != null && bookService.getBookListByStudent(getSelectionItem()).size() == 0) {
                 studentService.deleteStudent(getSelectionItem());
                 observableList.remove(getSelectedId());
             }
         });
-    }
-
-    private void setButtonStudentAddToBlacklistListener() {
         btnAddToBlacklist.setOnAction(event -> {
             if (getSelectionItem() != null && bookService.getBookListByStudent(getSelectionItem()).size() == 0) {
                 studentService.addStudentToBlacklist(getSelectionItem());
                 observableList.remove(getSelectedId());
-            }
-        });
-    }
-
-    private void setTextFieldFindBookListener() {
-        tfSearch.textProperty().addListener(new ChangeListener<String>() {
-            @Override
-            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-                search();
             }
         });
     }

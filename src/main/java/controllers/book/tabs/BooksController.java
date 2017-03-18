@@ -13,6 +13,8 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import model.Book;
+import utils.ui.UiPathConstants;
+import utils.ui.UiTitleConstants;
 import utils.ui.ViewUtil;
 
 import java.net.URL;
@@ -90,8 +92,7 @@ public class BooksController extends BaseTableController<Book> implements Initia
             }
         });
         btnAddNewBook.setOnAction(event -> {
-            ViewUtil viewUtil = new ViewUtil("fxml/book/book_add_new_view.fxml", "Додати нову книгу");
-            viewUtil.showView();
+            ViewUtil.showView(UiPathConstants.BOOK_ADD_NEW_PATH, UiTitleConstants.BOOK_ADD_NEW_TITTLE);
         });
     }
 }

@@ -1,23 +1,26 @@
 package main;
 
 import javafx.application.Application;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.stage.Stage;
+import utils.ui.UiPathConstants;
+import utils.ui.UiTitleConstants;
+import utils.ui.ViewUtil;
 
 public class StartFxApp extends Application {
+
+    private static StartFxApp instance;
+
+    public static StartFxApp getInstance() {
+        return instance;
+    }
+
     public static void main(String[] args) {
         launch(args);
     }
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("fxml/start_view.fxml"));
-        primaryStage.setTitle("Library");
-        primaryStage.setScene(new Scene(root));
-        primaryStage.show();
-
+        instance = this;
+        ViewUtil.showView(UiPathConstants.START_PATH, UiTitleConstants.START_TITTLE);
     }
-
 }

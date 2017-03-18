@@ -60,26 +60,22 @@ public class StudentsBlacklistController extends BaseTableController<Student> im
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         instance = this;
-        setTextFieldFindBookListener();
-        setBtnDeleteStudentFromBlacklistListener();
+        initListeners();
     }
 
-    private void setBtnDeleteStudentFromBlacklistListener() {
-        btnDeleteStudentFromBlacklist.setOnAction(event -> {
-            if (getSelectionItem() != null) {
-                studentService.deleteStudentFromBlackList(getSelectionItem());
-                observableList.remove(getSelectedId());
-            }
-        });
-    }
-
-
-    private void setTextFieldFindBookListener() {
+    private void initListeners() {
         tfSearch.textProperty().addListener(new ChangeListener<String>() {
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
                 search();
             }
         });
+        btnDeleteStudentFromBlacklist.setOnAction(event -> {
+            if (getSelectionItem() != null) {
+                studentService.deleteStudentFromBlackList(getSelectionItem());
+                observableList.remove(getSelectedId());
+            }
+        });
+
     }
 }

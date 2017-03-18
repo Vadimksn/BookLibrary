@@ -35,6 +35,12 @@ public class StudentInfoController extends BaseTableController<Book> implements 
     private StudentValidator studentValidator = new StudentValidator();
     private Student student;
 
+    private static StudentInfoController instance;
+
+    public static StudentInfoController getInstance() {
+        return instance;
+    }
+
     @Override
     protected TableView<Book> getTableView() {
         return tvBooks;
@@ -59,22 +65,17 @@ public class StudentInfoController extends BaseTableController<Book> implements 
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        setBtnCancelListener();
-        setBtnOkListener();
-        setButtonTakeBookListener();
+        instance = this;
+        initListeners();
     }
 
-    private void setButtonTakeBookListener() {
+    private void initListeners() {
         btnTakeBook.setOnAction(event -> {
             if (getSelectionItem() != null) {
                 bookService.takeBook(getSelectionItem());
                 initTableData();
             }
         });
-    }
-
-
-    private void setBtnOkListener() {
         btnOk.setOnAction(event -> {
             if (!(tfName.getText().isEmpty()
                     || tfSurname.getText().isEmpty()
@@ -91,9 +92,6 @@ public class StudentInfoController extends BaseTableController<Book> implements 
                 }
             }
         });
-    }
-
-    private void setBtnCancelListener() {
         btnCancel.setOnAction(event -> {
             getStage().close();
         });

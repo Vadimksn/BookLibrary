@@ -28,13 +28,11 @@ public class StudentAddNewController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        setBtnCancelListener();
-        setBtnOkListener();
+        initListeners();
     }
 
-    private void setBtnOkListener() {
+    private void initListeners() {
         btnOk.setOnAction(event -> {
-
             Student student = new Student(tfName.getText(), tfSurname.getText(),
                     tfMiddleName.getText(), tfPassportData.getText());
             if (studentValidator.checkAllTextField(student)) {
@@ -43,9 +41,6 @@ public class StudentAddNewController implements Initializable {
                 getStage().close();
             }
         });
-    }
-
-    private void setBtnCancelListener() {
         btnCancel.setOnAction(event -> {
             getStage().close();
         });
