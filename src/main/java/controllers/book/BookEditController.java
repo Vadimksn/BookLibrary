@@ -29,11 +29,10 @@ public class BookEditController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        setBtnOkListener();
-        setBtnCancelListener();
+        initListeners();
     }
 
-    private void setBtnOkListener() {
+    private void initListeners() {
         btnOk.setOnAction(event -> {
             if (!(tfBookTitle.getText().isEmpty()
                     || tfBookAuthor.getText().isEmpty()
@@ -50,9 +49,6 @@ public class BookEditController implements Initializable {
                 }
             }
         });
-    }
-
-    private void setBtnCancelListener() {
         btnCancel.setOnAction(event -> {
             getStage().close();
         });

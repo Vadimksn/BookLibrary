@@ -28,13 +28,11 @@ public class BookAddNewController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        setBtnOkListener();
-        setBtnCancelListener();
+        initListeners();
     }
 
-    private void setBtnOkListener() {
+    private void initListeners() {
         btnOk.setOnAction(event -> {
-
             Book book = new Book(tfBookTitle.getText(), tfBookAuthor.getText(),
                     tfBookEdition.getText(), tfYearOfPublication.getText());
             if (bookValidator.checkAllTextField(book)) {
@@ -43,12 +41,7 @@ public class BookAddNewController implements Initializable {
                 getStage().close();
             }
         });
-    }
-
-    private void setBtnCancelListener() {
-        btnCancel.setOnAction(event -> {
-            getStage().close();
-        });
+        btnCancel.setOnAction(event -> getStage().close());
     }
 
     private Stage getStage() {

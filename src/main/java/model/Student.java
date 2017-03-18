@@ -1,6 +1,6 @@
 package model;
 
-import utils.PropertiesHolder;
+import utils.properties.PropertiesHolder;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;

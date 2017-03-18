@@ -3,7 +3,7 @@ package db;
 import model.Book;
 import model.Student;
 import service.ConnectionService;
-import utils.PropertiesHolder;
+import utils.properties.PropertiesHolder;
 import utils.converter.ResultSetConverter;
 
 import java.sql.Connection;

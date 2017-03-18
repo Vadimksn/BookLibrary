@@ -1,6 +1,6 @@
 package service;
 
-import utils.PropertiesHolder;
+import utils.properties.PropertiesHolder;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
