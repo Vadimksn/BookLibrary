@@ -58,4 +58,9 @@ public class BookService implements IBookService {
     public Book getBookById(int id) {
         return bookDAO.getBookById(id);
     }
+
+    @Override
+    public Book getLastAddedBook() {
+        return bookDAO.getLastAddedBook();
+    }
 }

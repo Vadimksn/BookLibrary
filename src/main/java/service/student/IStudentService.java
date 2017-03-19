@@ -23,4 +23,6 @@ interface IStudentService {
 
     List<Student> getStudentsBlacklist();
 
+    Student getLastAddedStudent();
+
 }

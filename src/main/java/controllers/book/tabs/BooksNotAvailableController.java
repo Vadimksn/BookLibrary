@@ -1,6 +1,8 @@
 package controllers.book.tabs;
 
 import controllers.BaseTableController;
+import controllers.callbacks.book.BookCallback;
+import controllers.callbacks.book.BookObservable;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -16,7 +18,7 @@ import model.Book;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class BooksNotAvailableController extends BaseTableController<Book> implements Initializable {
+public class BooksNotAvailableController extends BaseTableController<Book> implements Initializable,BookCallback {
     @FXML
     private TableView<Book> tvNotAvailableBooks;
     @FXML
@@ -25,12 +27,6 @@ public class BooksNotAvailableController extends BaseTableController<Book> imple
     private Button btnTakeBook;
     @FXML
     private TextField tfSearch;
-
-    private static BooksNotAvailableController instance;
-
-    public static BooksNotAvailableController getInstance() {
-        return instance;
-    }
 
     @Override
     protected TableView<Book> getTableView() {
@@ -59,7 +55,6 @@ public class BooksNotAvailableController extends BaseTableController<Book> imple
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        instance = this;
         initTableData();
         initListeners();
     }
@@ -74,8 +69,41 @@ public class BooksNotAvailableController extends BaseTableController<Book> imple
         btnTakeBook.setOnAction(event -> {
             if (getSelectionItem() != null) {
                 bookService.takeBook(getSelectionItem());
-                initTableData();
+                BookObservable.onBookTaken(getSelectionItem());
             }
         });
+    }
+
+    @Override
+    public void onBookAdded(Book book) {
+
+    }
+
+    @Override
+    public void onBookDeleted(Book book) {
+
+    }
+
+    @Override
+    public void onBookEdit(Book book) {
+        for (int i = 0; i < observableList.size(); i++) {
+            Book currentBook = observableList.get(i);
+            if (currentBook.getId() == book.getId())
+                observableList.set(i,book);
+        }
+    }
+
+    @Override
+    public void onBookGiven(Book book) {
+        observableList.add(book);
+    }
+
+    @Override
+    public void onBookTaken(Book book) {
+        for (int i = 0; i < observableList.size(); i++) {
+            Book currentBook = observableList.get(i);
+            if (currentBook.getId() == book.getId())
+                observableList.remove(i);
+        }
     }
 }

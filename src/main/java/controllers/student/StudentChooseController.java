@@ -1,6 +1,7 @@
 package controllers.student;
 
 import controllers.BaseTableController;
+import controllers.callbacks.book.BookObservable;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -33,10 +34,10 @@ public class StudentChooseController extends BaseTableController<Student> implem
     @FXML
     private TextField tfSearch;
 
-    private BaseTableController<Book> baseTableController;
+    private Book book;
 
-    public void setBaseTableController(BaseTableController<Book> baseTableController) {
-        this.baseTableController = baseTableController;
+    public void setBook(Book book) {
+        this.book = book;
     }
 
     @Override
@@ -79,8 +80,8 @@ public class StudentChooseController extends BaseTableController<Student> implem
             @Override
             public void handle(ActionEvent event) {
                 if (getSelectionItem() != null) {
-                    bookService.giveBook(baseTableController.getSelectionItem(), getSelectionItem());
-                    baseTableController.initTableData();
+                    bookService.giveBook(book, getSelectionItem());
+                    BookObservable.onBookGiven(bookService.getBookById(book.getId()));
                     getStage().close();
                 }
             }

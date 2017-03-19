@@ -79,6 +79,18 @@ public class StudentDAO {
         }
         return student;
     }
+    public Student getLastAddedStudent() {
+        Student student = new Student();
+
+        try (Connection connection = ConnectionService.createConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(PreparedQuery.GET_LAST_ADDED_STUDENT)) {
+            ResultSet resultSet = preparedStatement.executeQuery();
+            student = ResultSetConverter.getStudent(resultSet);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return student;
+    }
 
     public List<Student> getListAllStudents() {
         List<Student> list = new ArrayList();

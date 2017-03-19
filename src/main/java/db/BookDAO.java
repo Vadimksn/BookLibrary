@@ -28,11 +28,14 @@ public class BookDAO {
             preparedStatement.setString(4, book.getYearOfPublication());
             preparedStatement.execute();
             connection.commit();
+
+
         } catch (Exception e) {
             System.err.println(e.getClass().getName() + ": " + e.getMessage());
             e.printStackTrace();
         }
     }
+
 
     public void delete(Book book) {
         try (Connection connection = ConnectionService.createConnection();
@@ -113,6 +116,18 @@ public class BookDAO {
         try (Connection connection = ConnectionService.createConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(PreparedQuery.SELECT_BOOK_BY_ID)) {
             preparedStatement.setInt(1, id);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            book = ResultSetConverter.getBook(resultSet);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return book;
+    }
+
+    public Book getLastAddedBook() {
+        Book book = new Book();
+        try (Connection connection = ConnectionService.createConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(PreparedQuery.GET_LAST_ADDED_BOOK)) {
             ResultSet resultSet = preparedStatement.executeQuery();
             book = ResultSetConverter.getBook(resultSet);
         } catch (SQLException e) {

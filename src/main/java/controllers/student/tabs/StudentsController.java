@@ -1,6 +1,7 @@
 package controllers.student.tabs;
 
 import controllers.BaseTableController;
+import controllers.callbacks.student.StudentCallback;
 import controllers.student.StudentInfoController;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -20,7 +21,7 @@ import utils.ui.ViewUtil;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class StudentsController extends BaseTableController<Student> implements Initializable {
+public class StudentsController extends BaseTableController<Student> implements Initializable,StudentCallback {
     @FXML
     private Button btnStudentInfo, btnStudentAddNew, btnDeleteStudent, btnAddToBlacklist;
     @FXML
@@ -29,12 +30,6 @@ public class StudentsController extends BaseTableController<Student> implements 
     private TableView<Student> tvStudents;
     @FXML
     private TextField tfSearch;
-
-    private static StudentsController instance;
-
-    public static StudentsController getInstance() {
-        return instance;
-    }
 
     @Override
     protected TableView<Student> getTableView() {
@@ -61,7 +56,6 @@ public class StudentsController extends BaseTableController<Student> implements 
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        instance = this;
         initTableData();
         initListeners();
     }
@@ -94,5 +88,47 @@ public class StudentsController extends BaseTableController<Student> implements 
                 observableList.remove(getSelectedId());
             }
         });
+    }
+
+    @Override
+    public void onStudentAdded(Student student) {
+        observableList.add(student);
+
+    }
+
+    @Override
+    public void onStudentDeleted(Student student) {
+        for (int i = 0; i < observableList.size(); i++) {
+            Student currentStudent = observableList.get(i);
+            if (currentStudent.getId() == student.getId())
+                observableList.remove(i);
+        }
+
+    }
+
+    @Override
+    public void onStudentEdit(Student Student) {
+        for (int i = 0; i < observableList.size(); i++) {
+            Student currentStudent = observableList.get(i);
+            if (currentStudent.getId() == Student.getId())
+                observableList.set(i,Student);
+        }
+
+    }
+
+    @Override
+    public void onStudentAddedToBlacklist(Student student) {
+        for (int i = 0; i < observableList.size(); i++) {
+            Student currentStudent = observableList.get(i);
+            if (currentStudent.getId() == student.getId())
+                observableList.remove(i);
+        }
+
+    }
+
+    @Override
+    public void onStudentDeletedFromBlackList(Student student) {
+        observableList.add(student);
+
     }
 }

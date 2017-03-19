@@ -1,5 +1,6 @@
 package controllers.student;
 
+import controllers.callbacks.student.StudentObservable;
 import controllers.student.tabs.StudentsController;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -22,7 +23,6 @@ public class StudentAddNewController implements Initializable {
     @FXML
     private AnchorPane apAddNewStudent;
 
-    private StudentsController studentsController = StudentsController.getInstance();
     private StudentValidator studentValidator = new StudentValidator();
     private StudentService studentService = new StudentService();
 
@@ -37,7 +37,7 @@ public class StudentAddNewController implements Initializable {
                     tfMiddleName.getText(), tfPassportData.getText());
             if (studentValidator.checkAllTextField(student)) {
                 studentService.saveStudent(student);
-                studentsController.initTableData();
+                StudentObservable.onStudentAdded(studentService.getLastAddedStudent());
                 getStage().close();
             }
         });

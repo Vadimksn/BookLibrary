@@ -27,4 +27,6 @@ interface IBookService {
 
     Book getBookById(int id);
 
+    Book getLastAddedBook();
+
 }

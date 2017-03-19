@@ -29,10 +29,11 @@ public class ViewUtil {
         return loader;
     }
 
-    public static void showStudentChoose(BaseTableController<Book> baseTableController) {
+    public static void showStudentChoose(Book book) {
         FXMLLoader loader = showView(UiPathConstants.STUDENT_CHOOSE_PATH, UiTitleConstants.STUDENT_CHOOSE_TITTLE);
         StudentChooseController studentChooseController = loader.getController();
-        studentChooseController.setBaseTableController(baseTableController);
+        studentChooseController.setBook(book);
+
     }
 
     public static void showBookEditView(BaseTableController<Book> baseTableController) {

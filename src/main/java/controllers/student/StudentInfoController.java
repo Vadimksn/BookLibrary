@@ -1,6 +1,8 @@
 package controllers.student;
 
 import controllers.BaseTableController;
+import controllers.callbacks.book.BookObservable;
+import controllers.callbacks.student.StudentObservable;
 import controllers.student.tabs.StudentsController;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
@@ -31,7 +33,6 @@ public class StudentInfoController extends BaseTableController<Book> implements 
     @FXML
     private TableView<Book> tvBooks;
 
-    private StudentsController studentsController = StudentsController.getInstance();
     private StudentValidator studentValidator = new StudentValidator();
     private Student student;
 
@@ -73,7 +74,12 @@ public class StudentInfoController extends BaseTableController<Book> implements 
         btnTakeBook.setOnAction(event -> {
             if (getSelectionItem() != null) {
                 bookService.takeBook(getSelectionItem());
-                initTableData();
+                for (int i = 0; i < observableList.size(); i++) {
+                    Book currentBook = observableList.get(i);
+                    if (currentBook.getId() == getSelectionItem().getId())
+                        observableList.remove(i);
+                }
+                BookObservable.onBookTaken(getSelectionItem());
             }
         });
         btnOk.setOnAction(event -> {
@@ -87,7 +93,7 @@ public class StudentInfoController extends BaseTableController<Book> implements 
                 student.setPassportData(tfPassportData.getText());
                 if (studentValidator.checkAllTextField(student)) {
                     studentService.updateStudent(student);
-                    studentsController.initTableData();
+                    StudentObservable.onStudentEdit(studentService.getStudentById(student.getId()));
                     getStage().close();
                 }
             }

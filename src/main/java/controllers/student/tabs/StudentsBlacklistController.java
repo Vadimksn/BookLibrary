@@ -1,6 +1,8 @@
 package controllers.student.tabs;
 
 import controllers.BaseTableController;
+import controllers.callbacks.student.StudentCallback;
+import controllers.callbacks.student.StudentObservable;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -16,7 +18,7 @@ import model.Student;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class StudentsBlacklistController extends BaseTableController<Student> implements Initializable {
+public class StudentsBlacklistController extends BaseTableController<Student> implements Initializable, StudentCallback {
     @FXML
     private Button btnDeleteStudentFromBlacklist;
     @FXML
@@ -25,12 +27,6 @@ public class StudentsBlacklistController extends BaseTableController<Student> im
     private TableView<Student> tvBlackList;
     @FXML
     private TextField tfSearch;
-
-    private static StudentsBlacklistController instance;
-
-    public static StudentsBlacklistController getInstance() {
-        return instance;
-    }
 
     @Override
     protected TableView<Student> getTableView() {
@@ -59,8 +55,8 @@ public class StudentsBlacklistController extends BaseTableController<Student> im
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        instance = this;
         initListeners();
+        initTableData();
     }
 
     private void initListeners() {
@@ -73,9 +69,36 @@ public class StudentsBlacklistController extends BaseTableController<Student> im
         btnDeleteStudentFromBlacklist.setOnAction(event -> {
             if (getSelectionItem() != null) {
                 studentService.deleteStudentFromBlackList(getSelectionItem());
-                observableList.remove(getSelectedId());
+                StudentObservable.onStudentDeletedFromBlackList(getSelectionItem());
             }
         });
 
+    }
+
+    @Override
+    public void onStudentAdded(Student student) {
+
+    }
+
+    @Override
+    public void onStudentDeleted(Student student) {
+    }
+
+    @Override
+    public void onStudentEdit(Student student) {
+    }
+
+    @Override
+    public void onStudentAddedToBlacklist(Student student) {
+        observableList.add(student);
+    }
+
+    @Override
+    public void onStudentDeletedFromBlackList(Student student) {
+        for (int i = 0; i < observableList.size(); i++) {
+            Student currentStudent = observableList.get(i);
+            if (currentStudent.getId() == student.getId())
+                observableList.remove(i);
+        }
     }
 }

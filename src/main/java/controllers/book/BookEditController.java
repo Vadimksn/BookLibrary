@@ -1,6 +1,6 @@
 package controllers.book;
 
-import controllers.book.tabs.BooksController;
+import controllers.callbacks.book.BookObservable;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -24,7 +24,6 @@ public class BookEditController implements Initializable {
 
     private BookValidator bookValidator = new BookValidator();
     private BookService bookService = new BookService();
-    private BooksController booksController = BooksController.getInstance();
     private Book book;
 
     @Override
@@ -44,7 +43,7 @@ public class BookEditController implements Initializable {
                 book.setYearOfPublication(tfYearOfPublication.getText());
                 if (bookValidator.checkAllTextField(book)) {
                     bookService.updateBook(book);
-                    booksController.initTableData();
+                    BookObservable.onBookEdit(bookService.getBookById(book.getId()));
                     getStage().close();
                 }
             }

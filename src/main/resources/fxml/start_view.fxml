@@ -3,7 +3,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.Cursor?>
 <TabPane minHeight="500.0" minWidth="865.0" prefHeight="500.0" prefWidth="865.0" tabClosingPolicy="UNAVAILABLE"
-         xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.StartViewController">
+         xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" >
     <tabs>
         <Tab fx:id="tabBooksAvailable" text="Доступні книги">
             <content>
