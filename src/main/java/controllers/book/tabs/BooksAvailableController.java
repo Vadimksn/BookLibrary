@@ -29,12 +29,6 @@ public class BooksAvailableController extends BaseTableController<Book> implemen
     @FXML
     private TextField tfSearch;
 
-    private static BooksAvailableController instance;
-
-    public static BooksAvailableController getInstance() {
-        return instance;
-    }
-
     @Override
     protected TableView<Book> getTableView() {
         return tvBooks;
@@ -59,7 +53,6 @@ public class BooksAvailableController extends BaseTableController<Book> implemen
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        instance = this;
         BookObservable.registerBookCallback(this);
         initTableData();
         initListeners();

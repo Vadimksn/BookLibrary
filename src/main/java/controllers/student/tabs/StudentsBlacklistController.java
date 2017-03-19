@@ -55,6 +55,7 @@ public class StudentsBlacklistController extends BaseTableController<Student> im
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        StudentObservable.registerStudentCallback(this);
         initListeners();
         initTableData();
     }

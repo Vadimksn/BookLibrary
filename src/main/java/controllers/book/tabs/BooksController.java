@@ -31,12 +31,6 @@ public class BooksController extends BaseTableController<Book> implements Initia
     @FXML
     private TextField tfSearch;
 
-    private static BooksController instance;
-
-    public static BooksController getInstance() {
-        return instance;
-    }
-
     @Override
     public TableView<Book> getTableView() {
         return tvBooks;
@@ -62,7 +56,6 @@ public class BooksController extends BaseTableController<Book> implements Initia
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        instance = this;
         BookObservable.registerBookCallback(this);
         initTableData();
         initListeners();

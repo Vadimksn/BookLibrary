@@ -55,6 +55,7 @@ public class BooksNotAvailableController extends BaseTableController<Book> imple
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        BookObservable.registerBookCallback(this);
         initTableData();
         initListeners();
     }
@@ -69,7 +70,9 @@ public class BooksNotAvailableController extends BaseTableController<Book> imple
         btnTakeBook.setOnAction(event -> {
             if (getSelectionItem() != null) {
                 bookService.takeBook(getSelectionItem());
-                BookObservable.onBookTaken(getSelectionItem());
+                Book takenBook = getSelectionItem();
+                takenBook.setAvailable(true);
+                BookObservable.onBookTaken(takenBook);
             }
         });
     }

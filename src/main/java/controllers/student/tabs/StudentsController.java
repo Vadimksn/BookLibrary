@@ -2,6 +2,7 @@ package controllers.student.tabs;
 
 import controllers.BaseTableController;
 import controllers.callbacks.student.StudentCallback;
+import controllers.callbacks.student.StudentObservable;
 import controllers.student.StudentInfoController;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -56,6 +57,7 @@ public class StudentsController extends BaseTableController<Student> implements 
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        StudentObservable.registerStudentCallback(this);
         initTableData();
         initListeners();
     }
