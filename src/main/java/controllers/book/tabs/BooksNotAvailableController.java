@@ -1,8 +1,8 @@
 package controllers.book.tabs;
 
 import controllers.BaseTableController;
-import controllers.callbacks.book.BookCallback;
-import controllers.callbacks.book.BookObservable;
+import controllers.observers.book.BookObserver;
+import controllers.observers.book.BookObservable;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -14,11 +14,12 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import model.Book;
+import utils.ui.ViewUtil;
 
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class BooksNotAvailableController extends BaseTableController<Book> implements Initializable,BookCallback {
+public class BooksNotAvailableController extends BaseTableController<Book> implements Initializable, BookObserver {
     @FXML
     private TableView<Book> tvNotAvailableBooks;
     @FXML
@@ -55,7 +56,7 @@ public class BooksNotAvailableController extends BaseTableController<Book> imple
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        BookObservable.registerBookCallback(this);
+        BookObservable.registerBookObserver(this);
         initTableData();
         initListeners();
     }
@@ -68,7 +69,7 @@ public class BooksNotAvailableController extends BaseTableController<Book> imple
             }
         });
         btnTakeBook.setOnAction(event -> {
-            if (getSelectionItem() != null) {
+            if (getSelectionItem() != null && ViewUtil.showConfirmation()) {
                 bookService.takeBook(getSelectionItem());
                 Book takenBook = getSelectionItem();
                 takenBook.setAvailable(true);
@@ -91,8 +92,10 @@ public class BooksNotAvailableController extends BaseTableController<Book> imple
     public void onBookEdit(Book book) {
         for (int i = 0; i < observableList.size(); i++) {
             Book currentBook = observableList.get(i);
-            if (currentBook.getId() == book.getId())
-                observableList.set(i,book);
+            if (currentBook.getId() == book.getId()) {
+                book.setStudentId(currentBook.getStudentId());
+                observableList.set(i, book);
+            }
         }
     }
 

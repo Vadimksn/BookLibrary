@@ -1,9 +1,8 @@
 package controllers.student;
 
 import controllers.BaseTableController;
-import controllers.callbacks.book.BookObservable;
-import controllers.callbacks.student.StudentObservable;
-import controllers.student.tabs.StudentsController;
+import controllers.observers.book.BookObservable;
+import controllers.observers.student.StudentObservable;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -72,25 +71,25 @@ public class StudentInfoController extends BaseTableController<Book> implements 
 
     private void initListeners() {
         btnTakeBook.setOnAction(event -> {
-            if (getSelectionItem() != null) {
-                bookService.takeBook(getSelectionItem());
+            Book book = getSelectionItem();
+            if (book != null) {
+                bookService.takeBook(book);
+                book.setAvailable(true);
+                BookObservable.onBookTaken(book);
                 for (int i = 0; i < observableList.size(); i++) {
                     Book currentBook = observableList.get(i);
-                    if (currentBook.getId() == getSelectionItem().getId())
+                    if (currentBook.getId() == book.getId())
                         observableList.remove(i);
                 }
-                BookObservable.onBookTaken(getSelectionItem());
             }
         });
         btnOk.setOnAction(event -> {
             if (!(tfName.getText().isEmpty()
                     || tfSurname.getText().isEmpty()
-                    || tfMiddleName.getText().isEmpty()
-                    || tfPassportData.getText().isEmpty())) {
+                    || tfMiddleName.getText().isEmpty())) {
                 student.setName(tfName.getText());
                 student.setSurname(tfSurname.getText());
                 student.setMiddleName(tfMiddleName.getText());
-                student.setPassportData(tfPassportData.getText());
                 if (studentValidator.checkAllTextField(student)) {
                     studentService.updateStudent(student);
                     StudentObservable.onStudentEdit(studentService.getStudentById(student.getId()));
@@ -110,7 +109,6 @@ public class StudentInfoController extends BaseTableController<Book> implements 
         tfMiddleName.setText(student.getMiddleName());
         tfRegistrationDate.setText(student.getRegistrationDate());
         tfPassportData.setText(student.getPassportData());
-
         initTableData();
     }
 

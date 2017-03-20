@@ -1,7 +1,7 @@
 package controllers.book.tabs;
 
 import controllers.BaseTableController;
-import controllers.callbacks.book.BookObservable;
+import controllers.observers.book.BookObservable;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -13,15 +13,14 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import model.Book;
-import controllers.callbacks.book.BookCallback;
-import utils.ui.UiPathConstants;
-import utils.ui.UiTitleConstants;
+import controllers.observers.book.BookObserver;
+import utils.ui.UiConstants;
 import utils.ui.ViewUtil;
 
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class BooksController extends BaseTableController<Book> implements Initializable, BookCallback {
+public class BooksController extends BaseTableController<Book> implements Initializable, BookObserver {
     @FXML
     private TableView<Book> tvBooks;
     @FXML
@@ -56,7 +55,7 @@ public class BooksController extends BaseTableController<Book> implements Initia
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        BookObservable.registerBookCallback(this);
+        BookObservable.registerBookObserver(this);
         initTableData();
         initListeners();
     }
@@ -80,7 +79,7 @@ public class BooksController extends BaseTableController<Book> implements Initia
         for (int i = 0; i < observableList.size(); i++) {
             Book currentBook = observableList.get(i);
             if (currentBook.getId() == book.getId())
-                observableList.set(i,book);
+                observableList.set(i, book);
         }
     }
 
@@ -89,7 +88,7 @@ public class BooksController extends BaseTableController<Book> implements Initia
         for (int i = 0; i < observableList.size(); i++) {
             Book currentBook = observableList.get(i);
             if (currentBook.getId() == book.getId())
-                observableList.set(i,book);
+                observableList.set(i, book);
         }
     }
 
@@ -98,7 +97,7 @@ public class BooksController extends BaseTableController<Book> implements Initia
         for (int i = 0; i < observableList.size(); i++) {
             Book currentBook = observableList.get(i);
             if (currentBook.getId() == book.getId())
-                observableList.set(i,book);
+                observableList.set(i, book);
         }
     }
 
@@ -116,7 +115,7 @@ public class BooksController extends BaseTableController<Book> implements Initia
         });
 
         btnDeleteBook.setOnAction(event -> {
-            if (getSelectionItem() != null && getSelectionItem().isAvailable()) {
+            if (getSelectionItem() != null && getSelectionItem().isAvailable() && ViewUtil.showConfirmation()) {
                 bookService.deleteBook(getSelectionItem());
                 BookObservable.onBookDeleted(getSelectionItem());
             }
@@ -128,7 +127,7 @@ public class BooksController extends BaseTableController<Book> implements Initia
             }
         });
         btnAddNewBook.setOnAction(event -> {
-            ViewUtil.showView(UiPathConstants.BOOK_ADD_NEW_PATH, UiTitleConstants.BOOK_ADD_NEW_TITTLE);
+            ViewUtil.showView(UiConstants.Path.BOOK_ADD_NEW_PATH, UiConstants.Tittle.BOOK_ADD_NEW_TITTLE, false);
         });
     }
 }

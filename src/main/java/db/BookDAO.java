@@ -28,10 +28,7 @@ public class BookDAO {
             preparedStatement.setString(4, book.getYearOfPublication());
             preparedStatement.execute();
             connection.commit();
-
-
         } catch (Exception e) {
-            System.err.println(e.getClass().getName() + ": " + e.getMessage());
             e.printStackTrace();
         }
     }
@@ -45,7 +42,6 @@ public class BookDAO {
             preparedStatement.execute();
             connection.commit();
         } catch (Exception e) {
-            System.err.println(e.getClass().getName() + ": " + e.getMessage());
             e.printStackTrace();
         }
     }
@@ -62,7 +58,6 @@ public class BookDAO {
             preparedStatement.execute();
             connection.commit();
         } catch (Exception e) {
-            System.err.println(e.getClass().getName() + ": " + e.getMessage());
             e.printStackTrace();
         }
     }
@@ -85,7 +80,6 @@ public class BookDAO {
             preparedStatement2.execute();
             connection.commit();
         } catch (Exception e) {
-            System.err.println(e.getClass().getName() + ": " + e.getMessage());
             e.printStackTrace();
         }
     }
@@ -106,7 +100,6 @@ public class BookDAO {
             preparedStatement2.execute();
             connection.commit();
         } catch (Exception e) {
-            System.err.println(e.getClass().getName() + ": " + e.getMessage());
             e.printStackTrace();
         }
     }
@@ -137,7 +130,7 @@ public class BookDAO {
     }
 
     public List<Book> getListAllBooks() {
-        List<Book> list = new ArrayList();
+        List<Book> list = new ArrayList<>();
         try (Connection connection = ConnectionService.createConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(PreparedQuery.SELECT_ALL_BOOKS)) {
             ResultSet resultSet = preparedStatement.executeQuery();
@@ -145,14 +138,13 @@ public class BookDAO {
                 list.add(ResultSetConverter.getBook(resultSet));
             }
         } catch (SQLException e) {
-            System.err.println(e.getClass().getName() + ": " + e.getMessage());
             e.printStackTrace();
         }
         return list;
     }
 
     public List<Book> getListAvailableBooks() {
-        List<Book> list = new ArrayList();
+        List<Book> list = new ArrayList<>();
         try (Connection connection = ConnectionService.createConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(PreparedQuery.SELECT_AVAILABLE_BOOKS)) {
             ResultSet resultSet = preparedStatement.executeQuery();
@@ -160,14 +152,13 @@ public class BookDAO {
                 list.add(ResultSetConverter.getBook(resultSet));
             }
         } catch (SQLException e) {
-            System.err.println(e.getClass().getName() + ": " + e.getMessage());
             e.printStackTrace();
         }
         return list;
     }
 
     public List<Book> getListNotAvailableBooks() {
-        List<Book> list = new ArrayList();
+        List<Book> list = new ArrayList<>();
         try (Connection connection = ConnectionService.createConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(PreparedQuery.SELECT_NOT_AVAILABLE_BOOKS)) {
             ResultSet resultSet = preparedStatement.executeQuery();
@@ -175,14 +166,13 @@ public class BookDAO {
                 list.add(ResultSetConverter.getNotAvailableBook(resultSet));
             }
         } catch (SQLException e) {
-            System.err.println(e.getClass().getName() + ": " + e.getMessage());
             e.printStackTrace();
         }
         return list;
     }
 
     public List<Book> getBookListByStudent(Student student) {
-        List<Book> list = new ArrayList();
+        List<Book> list = new ArrayList<>();
         try (Connection connection = ConnectionService.createConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(PreparedQuery.SELECT_BOOKS_BY_STUDENT)) {
             preparedStatement.setInt(1, student.getId());
@@ -191,7 +181,6 @@ public class BookDAO {
                 list.add(ResultSetConverter.getBook(resultSet));
             }
         } catch (Exception e) {
-            System.err.println(e.getClass().getName() + ": " + e.getMessage());
             e.printStackTrace();
         }
         return list;

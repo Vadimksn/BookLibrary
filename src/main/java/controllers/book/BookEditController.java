@@ -1,6 +1,6 @@
 package controllers.book;
 
-import controllers.callbacks.book.BookObservable;
+import controllers.observers.book.BookObservable;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;

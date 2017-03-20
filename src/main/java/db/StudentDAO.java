@@ -2,8 +2,11 @@ package db;
 
 import model.Student;
 import service.ConnectionService;
+import utils.error.DatabaseError;
 import utils.properties.PropertiesHolder;
 import utils.converter.ResultSetConverter;
+import utils.ui.UiConstants;
+import utils.ui.ViewUtil;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -16,7 +19,8 @@ import java.util.List;
 
 public class StudentDAO {
 
-    public void save(Student student) {
+    public boolean save(Student student) {
+        boolean save = false;
         try (Connection connection = ConnectionService.createConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(PreparedQuery.INSERT_STUDENT)) {
             connection.setAutoCommit(false);
@@ -28,10 +32,13 @@ public class StudentDAO {
             preparedStatement.setString(6, student.getBlacklistDate());
             preparedStatement.execute();
             connection.commit();
-        } catch (Exception e) {
-            System.err.println(e.getClass().getName() + ": " + e.getMessage());
-            e.printStackTrace();
+            save = true;
+        } catch (SQLException e) {
+            if (e.getErrorCode() == DatabaseError.UNIQUE_ID.getErrorCode()) {
+                ViewUtil.showError(UiConstants.Dialogs.PASSPORT_DATA_ERROR);
+            } else e.printStackTrace();
         }
+        return save;
     }
 
     public void delete(Student student) {
@@ -41,8 +48,7 @@ public class StudentDAO {
             preparedStatement.setInt(1, student.getId());
             preparedStatement.execute();
             connection.commit();
-        } catch (Exception e) {
-            System.err.println(e.getClass().getName() + ": " + e.getMessage());
+        } catch (SQLException e) {
             e.printStackTrace();
         }
     }
@@ -58,11 +64,9 @@ public class StudentDAO {
             preparedStatement.setInt(5, student.getId());
             preparedStatement.execute();
             connection.commit();
-        } catch (Exception e) {
-            System.err.println(e.getClass().getName() + ": " + e.getMessage());
+        } catch (SQLException e) {
             e.printStackTrace();
         }
-
     }
 
 
@@ -79,9 +83,9 @@ public class StudentDAO {
         }
         return student;
     }
+
     public Student getLastAddedStudent() {
         Student student = new Student();
-
         try (Connection connection = ConnectionService.createConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(PreparedQuery.GET_LAST_ADDED_STUDENT)) {
             ResultSet resultSet = preparedStatement.executeQuery();
@@ -93,8 +97,7 @@ public class StudentDAO {
     }
 
     public List<Student> getListAllStudents() {
-        List<Student> list = new ArrayList();
-
+        List<Student> list = new ArrayList<>();
         try (Connection connection = ConnectionService.createConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(PreparedQuery.SELECT_STUDENTS)) {
             preparedStatement.setInt(1, 0);
@@ -102,15 +105,14 @@ public class StudentDAO {
             while (resultSet.next()) {
                 list.add(ResultSetConverter.getStudent(resultSet));
             }
-        } catch (Exception e) {
-            System.err.println(e.getClass().getName() + ": " + e.getMessage());
+        } catch (SQLException e) {
             e.printStackTrace();
         }
         return list;
     }
 
     public List<Student> getStudentsBlacklist() {
-        List<Student> list = new ArrayList();
+        List<Student> list = new ArrayList<>();
 
         try (Connection connection = ConnectionService.createConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(PreparedQuery.SELECT_STUDENTS)) {
@@ -119,8 +121,7 @@ public class StudentDAO {
             while (resultSet.next()) {
                 list.add(ResultSetConverter.getStudent(resultSet));
             }
-        } catch (Exception e) {
-            System.err.println(e.getClass().getName() + ": " + e.getMessage());
+        } catch (SQLException e) {
             e.printStackTrace();
         }
         return list;
@@ -128,7 +129,6 @@ public class StudentDAO {
 
     public void addToBlackList(Student student) {
         SimpleDateFormat dateFormat = new SimpleDateFormat(PropertiesHolder.getProperty("DATE_FORMAT"));
-
         try (Connection connection = ConnectionService.createConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(PreparedQuery.ADD_STUDENT_TO_BLACKLIST_BY_ID)) {
             connection.setAutoCommit(false);
@@ -136,8 +136,7 @@ public class StudentDAO {
             preparedStatement.setInt(2, student.getId());
             preparedStatement.execute();
             connection.commit();
-        } catch (Exception e) {
-            System.err.println(e.getClass().getName() + ": " + e.getMessage());
+        } catch (SQLException e) {
             e.printStackTrace();
         }
     }
@@ -150,9 +149,8 @@ public class StudentDAO {
             preparedStatement.setInt(2, student.getId());
             preparedStatement.execute();
             connection.commit();
-        } catch (Exception e) {
-            System.err.println(e.getClass().getName() + ": " + e.getMessage());
-            e.printStackTrace();
+        } catch (SQLException e) {
+             e.printStackTrace();
         }
     }
 }

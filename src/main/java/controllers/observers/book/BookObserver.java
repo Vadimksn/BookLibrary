@@ -1,8 +1,8 @@
-package controllers.callbacks.book;
+package controllers.observers.book;
 
 import model.Book;
 
-public interface BookCallback {
+public interface BookObserver {
     void onBookAdded(Book book);
     void onBookDeleted(Book book);
     void onBookEdit(Book book);

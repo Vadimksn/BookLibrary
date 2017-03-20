@@ -1,7 +1,6 @@
 package controllers.student;
 
-import controllers.callbacks.student.StudentObservable;
-import controllers.student.tabs.StudentsController;
+import controllers.observers.student.StudentObservable;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -36,9 +35,10 @@ public class StudentAddNewController implements Initializable {
             Student student = new Student(tfName.getText(), tfSurname.getText(),
                     tfMiddleName.getText(), tfPassportData.getText());
             if (studentValidator.checkAllTextField(student)) {
-                studentService.saveStudent(student);
-                StudentObservable.onStudentAdded(studentService.getLastAddedStudent());
-                getStage().close();
+                if (studentService.saveStudent(student)) {
+                    StudentObservable.onStudentAdded(studentService.getLastAddedStudent());
+                    getStage().close();
+                }
             }
         });
         btnCancel.setOnAction(event -> {

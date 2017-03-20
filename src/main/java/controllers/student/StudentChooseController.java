@@ -1,7 +1,7 @@
 package controllers.student;
 
 import controllers.BaseTableController;
-import controllers.callbacks.book.BookObservable;
+import controllers.observers.book.BookObservable;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -81,7 +81,9 @@ public class StudentChooseController extends BaseTableController<Student> implem
             public void handle(ActionEvent event) {
                 if (getSelectionItem() != null) {
                     bookService.giveBook(book, getSelectionItem());
-                    BookObservable.onBookGiven(bookService.getBookById(book.getId()));
+                    Book givenBook = bookService.getBookById(book.getId());
+                    givenBook.setStudentId(getSelectionItem().getId());
+                    BookObservable.onBookGiven(givenBook);
                     getStage().close();
                 }
             }

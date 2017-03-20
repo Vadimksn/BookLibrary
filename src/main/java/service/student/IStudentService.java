@@ -7,7 +7,7 @@ import java.util.List;
 
 interface IStudentService {
 
-    void saveStudent(Student student);
+    boolean saveStudent(Student student);
 
     void deleteStudent(Student student);
 

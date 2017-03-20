@@ -1,8 +1,8 @@
 package controllers.student.tabs;
 
 import controllers.BaseTableController;
-import controllers.callbacks.student.StudentCallback;
-import controllers.callbacks.student.StudentObservable;
+import controllers.observers.student.StudentObserver;
+import controllers.observers.student.StudentObservable;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -14,11 +14,12 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import model.Student;
+import utils.ui.ViewUtil;
 
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class StudentsBlacklistController extends BaseTableController<Student> implements Initializable, StudentCallback {
+public class StudentsBlacklistController extends BaseTableController<Student> implements Initializable, StudentObserver {
     @FXML
     private Button btnDeleteStudentFromBlacklist;
     @FXML
@@ -55,7 +56,7 @@ public class StudentsBlacklistController extends BaseTableController<Student> im
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        StudentObservable.registerStudentCallback(this);
+        StudentObservable.registerStudentObserver(this);
         initListeners();
         initTableData();
     }
@@ -68,12 +69,11 @@ public class StudentsBlacklistController extends BaseTableController<Student> im
             }
         });
         btnDeleteStudentFromBlacklist.setOnAction(event -> {
-            if (getSelectionItem() != null) {
+            if (getSelectionItem() != null && ViewUtil.showConfirmation()) {
                 studentService.deleteStudentFromBlackList(getSelectionItem());
                 StudentObservable.onStudentDeletedFromBlackList(getSelectionItem());
             }
         });
-
     }
 
     @Override
@@ -96,10 +96,6 @@ public class StudentsBlacklistController extends BaseTableController<Student> im
 
     @Override
     public void onStudentDeletedFromBlackList(Student student) {
-        for (int i = 0; i < observableList.size(); i++) {
-            Student currentStudent = observableList.get(i);
-            if (currentStudent.getId() == student.getId())
-                observableList.remove(i);
-        }
+        observableList.remove(getSelectionItem());
     }
 }

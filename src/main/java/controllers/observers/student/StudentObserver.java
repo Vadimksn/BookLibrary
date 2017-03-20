@@ -1,8 +1,8 @@
-package controllers.callbacks.student;
+package controllers.observers.student;
 
 import model.Student;
 
-public interface StudentCallback {
+public interface StudentObserver {
     void onStudentAdded(Student student);
     void onStudentDeleted(Student student);
     void onStudentEdit(Student student);

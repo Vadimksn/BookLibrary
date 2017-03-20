@@ -1,8 +1,8 @@
 package controllers.book.tabs;
 
 import controllers.BaseTableController;
-import controllers.callbacks.book.BookCallback;
-import controllers.callbacks.book.BookObservable;
+import controllers.observers.book.BookObserver;
+import controllers.observers.book.BookObservable;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -19,7 +19,7 @@ import utils.ui.ViewUtil;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class BooksAvailableController extends BaseTableController<Book> implements Initializable, BookCallback {
+public class BooksAvailableController extends BaseTableController<Book> implements Initializable, BookObserver {
     @FXML
     private TableView<Book> tvBooks;
     @FXML
@@ -53,7 +53,7 @@ public class BooksAvailableController extends BaseTableController<Book> implemen
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        BookObservable.registerBookCallback(this);
+        BookObservable.registerBookObserver(this);
         initTableData();
         initListeners();
     }

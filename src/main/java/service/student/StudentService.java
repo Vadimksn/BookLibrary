@@ -10,8 +10,8 @@ public class StudentService implements IStudentService {
     private StudentDAO studentDAO = new StudentDAO();
 
     @Override
-    public void saveStudent(Student student) {
-        studentDAO.save(student);
+    public boolean saveStudent(Student student) {
+        return studentDAO.save(student);
     }
 
     @Override

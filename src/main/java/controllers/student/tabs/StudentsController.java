@@ -1,8 +1,8 @@
 package controllers.student.tabs;
 
 import controllers.BaseTableController;
-import controllers.callbacks.student.StudentCallback;
-import controllers.callbacks.student.StudentObservable;
+import controllers.observers.student.StudentObserver;
+import controllers.observers.student.StudentObservable;
 import controllers.student.StudentInfoController;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -15,18 +15,17 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import model.Student;
-import utils.ui.UiPathConstants;
-import utils.ui.UiTitleConstants;
+import utils.ui.UiConstants;
 import utils.ui.ViewUtil;
 
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class StudentsController extends BaseTableController<Student> implements Initializable,StudentCallback {
+public class StudentsController extends BaseTableController<Student> implements Initializable, StudentObserver {
     @FXML
     private Button btnStudentInfo, btnStudentAddNew, btnDeleteStudent, btnAddToBlacklist;
     @FXML
-    private TableColumn tcId, tcSurname, tcName, tcMiddleName, tcRegistrationDate;
+    private TableColumn tcId, tcSurname, tcName, tcMiddleName, tcPassportData, tcRegistrationDate;
     @FXML
     private TableView<Student> tvStudents;
     @FXML
@@ -49,6 +48,7 @@ public class StudentsController extends BaseTableController<Student> implements 
         tcSurname.setCellValueFactory(new PropertyValueFactory<Student, String>("surname"));
         tcMiddleName.setCellValueFactory(new PropertyValueFactory<Student, String>("middleName"));
         tcName.setCellValueFactory(new PropertyValueFactory<Student, String>("name"));
+        tcPassportData.setCellValueFactory(new PropertyValueFactory<Student, String>("passportData"));
         tcRegistrationDate.setCellValueFactory(new PropertyValueFactory<Student, String>("registrationDate"));
         tvStudents.setItems(observableList);
         tvStudents.setVisible(true);
@@ -57,7 +57,7 @@ public class StudentsController extends BaseTableController<Student> implements 
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        StudentObservable.registerStudentCallback(this);
+        StudentObservable.registerStudentObserver(this);
         initTableData();
         initListeners();
     }
@@ -71,23 +71,31 @@ public class StudentsController extends BaseTableController<Student> implements 
         });
         btnStudentInfo.setOnAction(event -> {
             if (getSelectionItem() != null) {
-                ViewUtil.showView(UiPathConstants.STUDENT_INFO_PATH, UiTitleConstants.STUDENT_INFO_TITTLE);
+                ViewUtil.showView(UiConstants.Path.STUDENT_INFO_PATH, UiConstants.Tittle.STUDENT_INFO_TITTLE, false);
                 StudentInfoController.getInstance().initStudentInfo(getSelectionItem());
             }
         });
         btnStudentAddNew.setOnAction(event -> {
-            ViewUtil.showView(UiPathConstants.STUDENT_ADD_NEW_PATH,UiTitleConstants.STUDENT_ADD_NEW_TITTLE);
+            ViewUtil.showView(UiConstants.Path.STUDENT_ADD_NEW_PATH, UiConstants.Tittle.STUDENT_ADD_NEW_TITTLE, false);
         });
         btnDeleteStudent.setOnAction(event -> {
-            if (getSelectionItem() != null && bookService.getBookListByStudent(getSelectionItem()).size() == 0) {
-                studentService.deleteStudent(getSelectionItem());
-                observableList.remove(getSelectedId());
+            if (getSelectionItem() != null) {
+                if (bookService.getBookListByStudent(getSelectionItem()).size() != 0) {
+                    ViewUtil.showError(UiConstants.Dialogs.STUDENT_DELETE_ERROR);
+                } else if (ViewUtil.showConfirmation()) {
+                    studentService.deleteStudent(getSelectionItem());
+                    StudentObservable.onStudentDeleted(getSelectionItem());
+                }
             }
         });
         btnAddToBlacklist.setOnAction(event -> {
-            if (getSelectionItem() != null && bookService.getBookListByStudent(getSelectionItem()).size() == 0) {
-                studentService.addStudentToBlacklist(getSelectionItem());
-                observableList.remove(getSelectedId());
+            if (getSelectionItem() != null) {
+                if (bookService.getBookListByStudent(getSelectionItem()).size() != 0) {
+                    ViewUtil.showError(UiConstants.Dialogs.STUDENT_DELETE_ERROR);
+                } else if (ViewUtil.showConfirmation()) {
+                    studentService.addStudentToBlacklist(getSelectionItem());
+                    StudentObservable.onStudentAddedToBlacklist(getSelectionItem());
+                }
             }
         });
     }
@@ -113,9 +121,8 @@ public class StudentsController extends BaseTableController<Student> implements 
         for (int i = 0; i < observableList.size(); i++) {
             Student currentStudent = observableList.get(i);
             if (currentStudent.getId() == Student.getId())
-                observableList.set(i,Student);
+                observableList.set(i, Student);
         }
-
     }
 
     @Override
