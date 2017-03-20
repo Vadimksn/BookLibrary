@@ -15,10 +15,13 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import model.Student;
+import utils.properties.PropertiesHolder;
 import utils.ui.UiConstants;
 import utils.ui.ViewUtil;
 
 import java.net.URL;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.ResourceBundle;
 
 public class StudentsController extends BaseTableController<Student> implements Initializable, StudentObserver {
@@ -89,12 +92,15 @@ public class StudentsController extends BaseTableController<Student> implements 
             }
         });
         btnAddToBlacklist.setOnAction(event -> {
-            if (getSelectionItem() != null) {
-                if (bookService.getBookListByStudent(getSelectionItem()).size() != 0) {
+            Student student = getSelectionItem();
+            if (student != null) {
+                if (bookService.getBookListByStudent(student).size() != 0) {
                     ViewUtil.showError(UiConstants.Dialogs.STUDENT_DELETE_ERROR);
                 } else if (ViewUtil.showConfirmation()) {
-                    studentService.addStudentToBlacklist(getSelectionItem());
-                    StudentObservable.onStudentAddedToBlacklist(getSelectionItem());
+                    studentService.addStudentToBlacklist(student);
+                    SimpleDateFormat dateFormat = new SimpleDateFormat(PropertiesHolder.getProperty("DATE_FORMAT"));
+                    student.setBlacklistDate(dateFormat.format(new Date()));
+                    StudentObservable.onStudentAddedToBlacklist(student);
                 }
             }
         });

@@ -8,7 +8,7 @@ public class Book  extends LibraryModel {
     private String yearOfPublication;
     private String dateOfGive;
     private String dateOfTake;
-    private boolean available;
+    private Boolean available;
     private int studentId;
 
     public Book() {
@@ -69,11 +69,11 @@ public class Book  extends LibraryModel {
         this.dateOfTake = dateOfTake;
     }
 
-    public boolean isAvailable() {
+    public Boolean isAvailable() {
         return available;
     }
 
-    public void setAvailable(boolean available) {
+    public void setAvailable(Boolean available) {
         this.available = available;
     }
 

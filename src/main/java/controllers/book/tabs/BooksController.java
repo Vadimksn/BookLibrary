@@ -1,19 +1,18 @@
 package controllers.book.tabs;
 
+
 import controllers.BaseTableController;
 import controllers.observers.book.BookObservable;
+import controllers.observers.book.BookObserver;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.util.Callback;
 import model.Book;
-import controllers.observers.book.BookObserver;
 import utils.ui.UiConstants;
 import utils.ui.ViewUtil;
 
@@ -24,7 +23,11 @@ public class BooksController extends BaseTableController<Book> implements Initia
     @FXML
     private TableView<Book> tvBooks;
     @FXML
-    private TableColumn tcId, tcTitle, tcAuthor, tcEdition, tcYearOfPublication, tcAvailability;
+    private TableColumn<Book, Integer> tcId;
+    @FXML
+    private TableColumn<Book, String> tcTitle, tcAuthor, tcEdition, tcYearOfPublication;
+    @FXML
+    private TableColumn<Book, Boolean> tcAvailability;
     @FXML
     private Button btnGiveBook, btnDeleteBook, btnEditBook, btnAddNewBook;
     @FXML
@@ -43,14 +46,34 @@ public class BooksController extends BaseTableController<Book> implements Initia
     @Override
     public void initTableData() {
         observableList = FXCollections.observableArrayList(bookService.getAllBooks());
-        tcId.setCellValueFactory(new PropertyValueFactory<Book, Integer>("id"));
-        tcTitle.setCellValueFactory(new PropertyValueFactory<Book, String>("title"));
-        tcAuthor.setCellValueFactory(new PropertyValueFactory<Book, String>("author"));
-        tcEdition.setCellValueFactory(new PropertyValueFactory<Book, String>("edition"));
-        tcYearOfPublication.setCellValueFactory(new PropertyValueFactory<Book, String>("yearOfPublication"));
-        tcAvailability.setCellValueFactory(new PropertyValueFactory<Book, Boolean>("available"));
+
+        tcId.setCellValueFactory(new PropertyValueFactory<>("id"));
+        tcTitle.setCellValueFactory(new PropertyValueFactory<>("title"));
+        tcAuthor.setCellValueFactory(new PropertyValueFactory<>("author"));
+        tcEdition.setCellValueFactory(new PropertyValueFactory<>("edition"));
+        tcYearOfPublication.setCellValueFactory(new PropertyValueFactory<>("yearOfPublication"));
+        tcAvailability.setCellValueFactory(new PropertyValueFactory<>("available"));
+        tcAvailability.setCellFactory(new Callback<TableColumn<Book, Boolean>, TableCell<Book, Boolean>>() {
+            @Override
+            public TableCell<Book, Boolean> call(TableColumn<Book, Boolean> param) {
+                return new TableCell<Book, Boolean>() {
+                    @Override
+                    protected void updateItem(Boolean item, boolean empty) {
+                        super.updateItem(item, empty);
+                        // FIXME: 20.03.2017 say thanks to javafx developers o_O
+                        if (item == null || empty)
+                            setStyle("");
+                        else if (item) {
+                            setStyle("-fx-background-color: rgba(0, 128, 0, 0.4); -fx-background-radius: 5");
+                        } else {
+                            setStyle("-fx-background-color: rgba(255, 0, 0, 0.4); -fx-background-radius: 5");
+                        }
+                    }
+                };
+            }
+        });
+
         tvBooks.setItems(observableList);
-        tvBooks.setVisible(true);
     }
 
     @Override
@@ -115,10 +138,18 @@ public class BooksController extends BaseTableController<Book> implements Initia
         });
 
         btnDeleteBook.setOnAction(event -> {
-            if (getSelectionItem() != null && getSelectionItem().isAvailable() && ViewUtil.showConfirmation()) {
-                bookService.deleteBook(getSelectionItem());
-                BookObservable.onBookDeleted(getSelectionItem());
+            if (getSelectionItem() != null) {
+                if (!getSelectionItem().isAvailable()) {
+                    ViewUtil.showError(UiConstants.Dialogs.STUDENT_DELETE_ERROR);
+                } else if (ViewUtil.showConfirmation()) {
+                    bookService.deleteBook(getSelectionItem());
+                    BookObservable.onBookDeleted(getSelectionItem());
+                }
             }
+//            if (getSelectionItem() != null && getSelectionItem().isAvailable() && ViewUtil.showConfirmation()) {
+//                bookService.deleteBook(getSelectionItem());
+//                BookObservable.onBookDeleted(getSelectionItem());
+//            }
         });
 
         btnEditBook.setOnAction(event -> {

@@ -16,11 +16,11 @@
         <TextField fx:id="tfBookTitle" layoutX="34.0" layoutY="21.0" prefHeight="25.0" prefWidth="259.0"
                    promptText="Назва книги" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0"
                    AnchorPane.topAnchor="15.0"/>
-        <TextField fx:id="tfBookEdition" layoutX="116.0" layoutY="90.0" prefHeight="25.0" prefWidth="259.0"
-                   promptText="Видавництво" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0"
-                   AnchorPane.topAnchor="55.0"/>
         <TextField fx:id="tfBookAuthor" layoutX="112.0" layoutY="131.0" prefHeight="25.0" prefWidth="259.0"
                    promptText="Автор" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0"
+                   AnchorPane.topAnchor="55.0"/>
+        <TextField fx:id="tfBookEdition" layoutX="116.0" layoutY="90.0" prefHeight="25.0" prefWidth="259.0"
+                   promptText="Видавництво" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0"
                    AnchorPane.topAnchor="95.0"/>
         <TextField fx:id="tfYearOfPublication" maxHeight="25.0" maxWidth="120.0" minHeight="25.0" minWidth="120.0"
                    prefHeight="25.0" prefWidth="120.0" promptText="Рік видання" AnchorPane.bottomAnchor="15.0"

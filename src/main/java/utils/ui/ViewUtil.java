@@ -54,7 +54,6 @@ public class ViewUtil {
         alert.setTitle(UiConstants.Tittle.ERROR);
         alert.setContentText(dialog);
         alert.setHeaderText(null);
-        alert.initModality(Modality.APPLICATION_MODAL);
         alert.showAndWait();
     }
 
@@ -63,7 +62,6 @@ public class ViewUtil {
         alert.setTitle(UiConstants.Tittle.CONFIRMATION);
         alert.setHeaderText(null);
         alert.setContentText(UiConstants.Dialogs.CONFIRMATION_QUESTION);
-
         Optional<ButtonType> result = alert.showAndWait();
         return result.get() == ButtonType.OK;
     }
