@@ -3,7 +3,7 @@ package utils.ui;
 public interface UiConstants {
 
     interface Tittle {
-        String START_TITTLE = "БІБЛІОТЕКА";
+        String START_TITTLE = "БІБЛІОТЕКА - version 1.0 [by vadimksn]";
         String STUDENT_CHOOSE_TITTLE = "Оберіть студента";
         String STUDENT_INFO_TITTLE = "Інформація читача";
         String STUDENT_ADD_NEW_TITTLE = "Додати нового читача";
@@ -11,6 +11,7 @@ public interface UiConstants {
         String BOOK_ADD_NEW_TITTLE = "Додати нову книгу";
         String ERROR = "Помилка";
         String CONFIRMATION = "Підтвердження";
+        String RELAX = "~ Relax, дєтка ~";
     }
 
     interface Dialogs {
@@ -21,6 +22,9 @@ public interface UiConstants {
     }
 
     interface Path {
+        String RELAX = "fxml/relax/gandalf.fxml";
+        String GANDALF = "mp3/relax/gandalf_mix.mp3";
+        String VADIMKSN = "png/vadimksn.png";
         String START_PATH = "fxml/start_view.fxml";
         String STUDENT_CHOOSE_PATH = "fxml/student/student_choose_view.fxml";
         String STUDENT_INFO_PATH = "fxml/student/student_info_view.fxml";

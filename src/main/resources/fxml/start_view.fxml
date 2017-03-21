@@ -2,36 +2,46 @@
 
 <?import javafx.scene.control.*?>
 <?import javafx.scene.Cursor?>
-<TabPane minHeight="500.0" minWidth="865.0" prefHeight="500.0" prefWidth="865.0" tabClosingPolicy="UNAVAILABLE"
-         xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
-    <tabs>
-        <Tab fx:id="tabBooksAvailable" text="Доступні книги">
-            <content>
-                <fx:include source="book/tabs/books_available.fxml"/>
-            </content>
-        </Tab>
-        <Tab fx:id="tabBooksNotAvailable" text="Видані книги">
-            <content>
-                <fx:include source="book/tabs/books_not_available.fxml"/>
-            </content>
-        </Tab>
-        <Tab fx:id="tabBooks" text="Список усіх книг">
-            <content>
-                <fx:include source="book/tabs/books.fxml"/>
-            </content>
-        </Tab>
-        <Tab fx:id="tabStudents" text="Список читачів">
-            <content>
-                <fx:include source="student/tabs/students.fxml"/>
-            </content>
-        </Tab>
-        <Tab fx:id="tabStudentsBlackList" text="Чорний список читачів">
-            <content>
-                <fx:include source="student/tabs/students_blacklist.fxml"/>
-            </content>
-        </Tab>
-    </tabs>
-    <cursor>
-        <Cursor fx:constant="HAND"/>
-    </cursor>
-</TabPane>
+<?import javafx.scene.layout.AnchorPane?>
+<AnchorPane minHeight="525.0" minWidth="865.0" prefHeight="525.0" prefWidth="865.0" xmlns="http://javafx.com/javafx/8"
+            xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.StartController">
+    <children>
+        <TabPane tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
+                 AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="23.0">
+            <tabs>
+                <Tab  text="Список усіх книг">
+                    <content>
+                        <fx:include source="book/tabs/books.fxml"/>
+                    </content>
+                </Tab>
+                <Tab  text="Доступні книги">
+                    <content>
+                        <fx:include source="book/tabs/books_available.fxml"/>
+                    </content>
+                </Tab>
+                <Tab  text="Видані книги">
+                    <content>
+                        <fx:include source="book/tabs/books_not_available.fxml"/>
+                    </content>
+                </Tab>
+                <Tab text="Список читачів">
+                    <content>
+                        <fx:include source="student/tabs/students.fxml"/>
+                    </content>
+                </Tab>
+                <Tab  text="Чорний список читачів">
+                    <content>
+                        <fx:include source="student/tabs/students_blacklist.fxml"/>
+                    </content>
+                </Tab>
+            </tabs>
+            <cursor>
+                <Cursor fx:constant="HAND"/>
+            </cursor>
+        </TabPane>
+        <Button onAction="#relax" layoutX="214.0" layoutY="12.0" maxHeight="25.0" minHeight="25.0" minWidth="865.0"
+                mnemonicParsing="false" prefHeight="25.0" prefWidth="865.0" text="~ Relax button ~"
+                textAlignment="JUSTIFY" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
+                AnchorPane.topAnchor="0.0"/>
+    </children>
+</AnchorPane>

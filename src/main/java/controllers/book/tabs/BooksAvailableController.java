@@ -1,8 +1,8 @@
 package controllers.book.tabs;
 
 import controllers.BaseTableController;
-import controllers.observers.book.BookObserver;
 import controllers.observers.book.BookObservable;
+import controllers.observers.book.BookObserver;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -77,7 +77,7 @@ public class BooksAvailableController extends BaseTableController<Book> implemen
         for (int i = 0; i < observableList.size(); i++) {
             Book currentBook = observableList.get(i);
             if (currentBook.getId() == book.getId())
-                observableList.set(i,book);
+                observableList.set(i, book);
         }
     }
 

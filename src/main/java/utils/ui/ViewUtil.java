@@ -8,9 +8,11 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
+import javafx.scene.image.Image;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import model.Book;
+import utils.media.GandalfPlayer;
 
 import java.io.IOException;
 import java.util.Optional;
@@ -26,6 +28,7 @@ public class ViewUtil {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        stage.getIcons().add(new Image(UiConstants.Path.VADIMKSN));
         stage.setTitle(viewTitle);
         stage.setScene(new Scene(root));
         stage.initModality(Modality.APPLICATION_MODAL);
@@ -64,6 +67,25 @@ public class ViewUtil {
         alert.setContentText(UiConstants.Dialogs.CONFIRMATION_QUESTION);
         Optional<ButtonType> result = alert.showAndWait();
         return result.get() == ButtonType.OK;
+    }
+
+    public static void showGandalf() {
+        Stage stage = new Stage();
+        Parent root = null;
+        FXMLLoader loader = new FXMLLoader(ViewUtil.class.getClassLoader().getResource(UiConstants.Path.RELAX));
+        try {
+            root = loader.load();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        stage.getIcons().add(new Image(UiConstants.Path.VADIMKSN));
+        stage.setTitle(UiConstants.Tittle.RELAX);
+        stage.setScene(new Scene(root));
+        stage.initModality(Modality.APPLICATION_MODAL);
+        stage.setResizable(false);
+        stage.setOnCloseRequest(event -> GandalfPlayer.stop());
+        stage.show();
+        GandalfPlayer.play();
     }
 
 }

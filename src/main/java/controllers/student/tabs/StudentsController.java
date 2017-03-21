@@ -1,8 +1,8 @@
 package controllers.student.tabs;
 
 import controllers.BaseTableController;
-import controllers.observers.student.StudentObserver;
 import controllers.observers.student.StudentObservable;
+import controllers.observers.student.StudentObserver;
 import controllers.student.StudentInfoController;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;

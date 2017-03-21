@@ -1,8 +1,8 @@
 package controllers.book.tabs;
 
 import controllers.BaseTableController;
-import controllers.observers.book.BookObserver;
 import controllers.observers.book.BookObservable;
+import controllers.observers.book.BookObserver;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;

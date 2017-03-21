@@ -146,10 +146,6 @@ public class BooksController extends BaseTableController<Book> implements Initia
                     BookObservable.onBookDeleted(getSelectionItem());
                 }
             }
-//            if (getSelectionItem() != null && getSelectionItem().isAvailable() && ViewUtil.showConfirmation()) {
-//                bookService.deleteBook(getSelectionItem());
-//                BookObservable.onBookDeleted(getSelectionItem());
-//            }
         });
 
         btnEditBook.setOnAction(event -> {
