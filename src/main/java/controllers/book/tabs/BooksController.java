@@ -132,15 +132,20 @@ public class BooksController extends BaseTableController<Book> implements Initia
             }
         });
         btnGiveBook.setOnAction(event -> {
-            if (getSelectionItem() != null && getSelectionItem().isAvailable()) {
-                ViewUtil.showStudentChoose(getSelectionItem());
+            if (getSelectionItem() != null) {
+                if (!getSelectionItem().isAvailable()) {
+                    ViewUtil.showError(UiConstants.Dialogs.STUDENT_BOOK_ERROR);
+                } else ViewUtil.showStudentChoose(getSelectionItem());
             }
+//            if (getSelectionItem() != null && getSelectionItem().isAvailable()) {
+//                ViewUtil.showStudentChoose(getSelectionItem());
+//            }
         });
 
         btnDeleteBook.setOnAction(event -> {
             if (getSelectionItem() != null) {
                 if (!getSelectionItem().isAvailable()) {
-                    ViewUtil.showError(UiConstants.Dialogs.STUDENT_DELETE_ERROR);
+                    ViewUtil.showError(UiConstants.Dialogs.STUDENT_BOOK_ERROR);
                 } else if (ViewUtil.showConfirmation()) {
                     bookService.deleteBook(getSelectionItem());
                     BookObservable.onBookDeleted(getSelectionItem());

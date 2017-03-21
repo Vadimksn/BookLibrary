@@ -16,7 +16,7 @@ public interface UiConstants {
 
     interface Dialogs {
         String PASSPORT_DATA_ERROR = "Читач з такими паспортними даними вже існує!";
-        String STUDENT_DELETE_ERROR = "Читач не здав книгу!";
+        String STUDENT_BOOK_ERROR = "Читач не здав книгу!";
         String CONFIRMATION_QUESTION = "Ви впевнені?";
 
     }

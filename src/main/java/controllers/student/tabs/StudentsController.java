@@ -84,7 +84,7 @@ public class StudentsController extends BaseTableController<Student> implements 
         btnDeleteStudent.setOnAction(event -> {
             if (getSelectionItem() != null) {
                 if (bookService.getBookListByStudent(getSelectionItem()).size() != 0) {
-                    ViewUtil.showError(UiConstants.Dialogs.STUDENT_DELETE_ERROR);
+                    ViewUtil.showError(UiConstants.Dialogs.STUDENT_BOOK_ERROR);
                 } else if (ViewUtil.showConfirmation()) {
                     studentService.deleteStudent(getSelectionItem());
                     StudentObservable.onStudentDeleted(getSelectionItem());
@@ -95,7 +95,7 @@ public class StudentsController extends BaseTableController<Student> implements 
             Student student = getSelectionItem();
             if (student != null) {
                 if (bookService.getBookListByStudent(student).size() != 0) {
-                    ViewUtil.showError(UiConstants.Dialogs.STUDENT_DELETE_ERROR);
+                    ViewUtil.showError(UiConstants.Dialogs.STUDENT_BOOK_ERROR);
                 } else if (ViewUtil.showConfirmation()) {
                     studentService.addStudentToBlacklist(student);
                     SimpleDateFormat dateFormat = new SimpleDateFormat(PropertiesHolder.getProperty("DATE_FORMAT"));
