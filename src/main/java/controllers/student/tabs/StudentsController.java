@@ -75,7 +75,7 @@ public class StudentsController extends BaseTableController<Student> implements 
         btnStudentInfo.setOnAction(event -> {
             if (getSelectionItem() != null) {
                 ViewUtil.showView(UiConstants.Path.STUDENT_INFO_PATH, UiConstants.Tittle.STUDENT_INFO_TITTLE, false);
-                StudentInfoController.getInstance().initStudentInfo(getSelectionItem());
+                StudentInfoController.getStudentInfoController().initStudentInfo(getSelectionItem());
             }
         });
         btnStudentAddNew.setOnAction(event -> {

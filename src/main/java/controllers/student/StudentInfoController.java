@@ -35,10 +35,10 @@ public class StudentInfoController extends BaseTableController<Book> implements 
     private StudentValidator studentValidator = new StudentValidator();
     private Student student;
 
-    private static StudentInfoController instance;
+    private static StudentInfoController studentInfoController;
 
-    public static StudentInfoController getInstance() {
-        return instance;
+    public static StudentInfoController getStudentInfoController() {
+        return studentInfoController;
     }
 
     @Override
@@ -65,7 +65,7 @@ public class StudentInfoController extends BaseTableController<Book> implements 
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        instance = this;
+        studentInfoController = this;
         initListeners();
     }
 
