@@ -1,6 +1,7 @@
 package db;
 
 import model.Student;
+import org.apache.log4j.Logger;
 import service.ConnectionService;
 import utils.error.DatabaseError;
 import utils.properties.PropertiesHolder;
@@ -18,6 +19,8 @@ import java.util.Date;
 import java.util.List;
 
 public class StudentDAO {
+    private final static Logger logger = Logger.getLogger(StudentDAO.class);
+
 
     public boolean save(Student student) {
         boolean save = false;
@@ -33,6 +36,7 @@ public class StudentDAO {
             preparedStatement.execute();
             connection.commit();
             save = true;
+            logger.info("Student : [" + student.toStringForLog() + "] is saved.");
         } catch (SQLException e) {
             if (e.getErrorCode() == DatabaseError.UNIQUE_ID.getErrorCode()) {
                 ViewUtil.showError(UiConstants.Dialogs.PASSPORT_DATA_ERROR);
@@ -48,6 +52,7 @@ public class StudentDAO {
             preparedStatement.setInt(1, student.getId());
             preparedStatement.execute();
             connection.commit();
+            logger.info("Student : [" + student.toStringForLog() + "] is deleted.");
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -64,6 +69,7 @@ public class StudentDAO {
             preparedStatement.setInt(5, student.getId());
             preparedStatement.execute();
             connection.commit();
+            logger.info("Student : [" + student.toStringForLog() + "] is update.");
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -72,12 +78,12 @@ public class StudentDAO {
 
     public Student getStudentById(int id) {
         Student student = new Student();
-
         try (Connection connection = ConnectionService.createConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(PreparedQuery.SELECT_STUDENT_BY_ID)) {
             preparedStatement.setInt(1, id);
             ResultSet resultSet = preparedStatement.executeQuery();
             student = ResultSetConverter.getStudent(resultSet);
+            logger.info("Student : [" + student.toStringForLog() + "] has been gotten by id : " + id + ".");
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -90,6 +96,8 @@ public class StudentDAO {
              PreparedStatement preparedStatement = connection.prepareStatement(PreparedQuery.GET_LAST_ADDED_STUDENT)) {
             ResultSet resultSet = preparedStatement.executeQuery();
             student = ResultSetConverter.getStudent(resultSet);
+            logger.info("Last added student : [" + student.toStringForLog() + "] has been gotten.");
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -105,6 +113,7 @@ public class StudentDAO {
             while (resultSet.next()) {
                 list.add(ResultSetConverter.getStudent(resultSet));
             }
+            logger.info("List of students has been gotten.");
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -121,6 +130,7 @@ public class StudentDAO {
             while (resultSet.next()) {
                 list.add(ResultSetConverter.getStudent(resultSet));
             }
+            logger.info("Blacklist of students has been gotten.");
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -136,6 +146,7 @@ public class StudentDAO {
             preparedStatement.setInt(2, student.getId());
             preparedStatement.execute();
             connection.commit();
+            logger.info("Student : [" + student.toStringForLog() + "] was added to blacklist.");
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -149,8 +160,9 @@ public class StudentDAO {
             preparedStatement.setInt(2, student.getId());
             preparedStatement.execute();
             connection.commit();
+            logger.info("Student : [" + student.toStringForLog() + "] was deleted from blacklist.");
         } catch (SQLException e) {
-             e.printStackTrace();
+            e.printStackTrace();
         }
     }
 }

@@ -84,7 +84,7 @@ public class BookDAO {
             preparedStatement2.setInt(4, book.getId());
             preparedStatement2.execute();
             connection.commit();
-            logger.info("Book : [" + book.toStringForLog() + "] has been given.");
+            logger.info("Book : [" + book.toStringForLog() + "] has been given to student : " + student.toStringForLog() + ".");
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -118,7 +118,7 @@ public class BookDAO {
             preparedStatement.setInt(1, id);
             ResultSet resultSet = preparedStatement.executeQuery();
             book = ResultSetConverter.getBook(resultSet);
-            logger.info("Book : [" + book.toStringForLog() + "] has been gotten by id : " + book.getId()+".");
+            logger.info("Book : [" + book.toStringForLog() + "] has been gotten by id : " + id + ".");
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -193,7 +193,7 @@ public class BookDAO {
             while (resultSet.next()) {
                 list.add(ResultSetConverter.getBook(resultSet));
             }
-            logger.info("List of books has been received from a student : "+student.toStringForLog()+".");
+            logger.info("List of books has been received from a student : " + student.toStringForLog() + ".");
         } catch (Exception e) {
             e.printStackTrace();
         }
