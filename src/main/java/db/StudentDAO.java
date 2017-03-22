@@ -4,6 +4,7 @@ import model.Student;
 import org.apache.log4j.Logger;
 import service.ConnectionService;
 import utils.error.DatabaseError;
+import utils.error.SqlError;
 import utils.properties.PropertiesHolder;
 import utils.converter.ResultSetConverter;
 import utils.ui.UiConstants;
@@ -38,9 +39,10 @@ public class StudentDAO {
             save = true;
             logger.info("Student : [" + student.toStringForLog() + "] is saved.");
         } catch (SQLException e) {
-            if (e.getErrorCode() == DatabaseError.UNIQUE_ID.getErrorCode()) {
-                ViewUtil.showError(UiConstants.Dialogs.PASSPORT_DATA_ERROR);
-            } else e.printStackTrace();
+            SqlError.catchSqlException(e);
+//            if (e.getErrorCode() == DatabaseError.UNIQUE_ID.getErrorCode()) {
+//                ViewUtil.showError(UiConstants.Dialogs.PASSPORT_DATA_ERROR);
+//            } else e.printStackTrace();
         }
         return save;
     }
@@ -97,7 +99,6 @@ public class StudentDAO {
             ResultSet resultSet = preparedStatement.executeQuery();
             student = ResultSetConverter.getStudent(resultSet);
             logger.info("Last added student : [" + student.toStringForLog() + "] has been gotten.");
-
         } catch (SQLException e) {
             e.printStackTrace();
         }

@@ -31,7 +31,7 @@ public class BookDAO {
             preparedStatement.execute();
             connection.commit();
             logger.info("Book : [" + book.toStringForLog() + "] is saved.");
-        } catch (Exception e) {
+        } catch (SQLException e) {
             e.printStackTrace();
         }
     }
@@ -45,7 +45,7 @@ public class BookDAO {
             preparedStatement.execute();
             connection.commit();
             logger.info("Book : [" + book.toStringForLog() + "] is deleted.");
-        } catch (Exception e) {
+        } catch (SQLException e) {
             e.printStackTrace();
         }
     }
@@ -62,7 +62,7 @@ public class BookDAO {
             preparedStatement.execute();
             connection.commit();
             logger.info("Book : [" + book.toStringForLog() + "] is update.");
-        } catch (Exception e) {
+        } catch (SQLException e) {
             e.printStackTrace();
         }
     }
@@ -85,7 +85,7 @@ public class BookDAO {
             preparedStatement2.execute();
             connection.commit();
             logger.info("Book : [" + book.toStringForLog() + "] has been given to student : " + student.toStringForLog() + ".");
-        } catch (Exception e) {
+        } catch (SQLException e) {
             e.printStackTrace();
         }
     }
@@ -106,7 +106,7 @@ public class BookDAO {
             preparedStatement2.execute();
             connection.commit();
             logger.info("Book : [" + book.toStringForLog() + "] has been taken.");
-        } catch (Exception e) {
+        } catch (SQLException e) {
             e.printStackTrace();
         }
     }
@@ -194,7 +194,7 @@ public class BookDAO {
                 list.add(ResultSetConverter.getBook(resultSet));
             }
             logger.info("List of books has been received from a student : " + student.toStringForLog() + ".");
-        } catch (Exception e) {
+        } catch (SQLException e) {
             e.printStackTrace();
         }
         return list;

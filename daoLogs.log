@@ -5,3 +5,10 @@
 2017-03-22 21:10:24 INFO  BookDAO:121 - Book : [1 1 1 1] has been gotten by id : 14.
 2017-03-22 21:11:00 INFO  BookDAO:64 - Book : [Hearthstone или как я хотел взять легенду Пабєдітєль Юджин продакшн 2016] is update.
 2017-03-22 21:11:00 INFO  BookDAO:121 - Book : [Hearthstone или как я хотел взять легенду Пабєдітєль Юджин продакшн 2016] has been gotten by id : 2.
+2017-03-23 00:02:04 INFO  BookDAO:150 - List of books has been gotten.
+2017-03-23 00:02:05 INFO  BookDAO:165 - List of available books had been gotten.
+2017-03-23 00:02:05 INFO  BookDAO:180 - List of not available books had been gotten.
+2017-03-23 00:02:05 INFO  StudentDAO:117 - List of students has been gotten.
+2017-03-23 00:02:05 INFO  StudentDAO:134 - Blacklist of students has been gotten.
+2017-03-23 00:03:22 INFO  StudentDAO:40 - Student : [Петросян Йосип Тракторович ОЙ010101] is saved.
+2017-03-23 00:03:22 INFO  StudentDAO:101 - Last added student : [Петросян Йосип Тракторович ОЙ010101] has been gotten.
