@@ -88,4 +88,9 @@ public class Book  extends LibraryModel {
     public String toStringForSearch() {
         return "" + id + " " + title + " " + author + " " + edition + " " + yearOfPublication;
     }
+
+    @Override
+    public String toStringForLog() {
+        return title + " " + author + " " + edition + " " + yearOfPublication;
+    }
 }

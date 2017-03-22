@@ -13,6 +13,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.util.Callback;
 import model.Book;
+import org.apache.log4j.Logger;
 import utils.ui.UiConstants;
 import utils.ui.ViewUtil;
 
@@ -46,7 +47,6 @@ public class BooksController extends BaseTableController<Book> implements Initia
     @Override
     public void initTableData() {
         observableList = FXCollections.observableArrayList(bookService.getAllBooks());
-
         tcId.setCellValueFactory(new PropertyValueFactory<>("id"));
         tcTitle.setCellValueFactory(new PropertyValueFactory<>("title"));
         tcAuthor.setCellValueFactory(new PropertyValueFactory<>("author"));
@@ -72,7 +72,6 @@ public class BooksController extends BaseTableController<Book> implements Initia
                 };
             }
         });
-
         tvBooks.setItems(observableList);
     }
 
@@ -125,21 +124,13 @@ public class BooksController extends BaseTableController<Book> implements Initia
     }
 
     private void initListeners() {
-        tfSearch.textProperty().addListener(new ChangeListener<String>() {
-            @Override
-            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-                search();
-            }
-        });
+        tfSearch.textProperty().addListener((observable, oldValue, newValue) -> search());
         btnGiveBook.setOnAction(event -> {
             if (getSelectionItem() != null) {
                 if (!getSelectionItem().isAvailable()) {
                     ViewUtil.showError(UiConstants.Dialogs.STUDENT_BOOK_ERROR);
                 } else ViewUtil.showStudentChoose(getSelectionItem());
             }
-//            if (getSelectionItem() != null && getSelectionItem().isAvailable()) {
-//                ViewUtil.showStudentChoose(getSelectionItem());
-//            }
         });
 
         btnDeleteBook.setOnAction(event -> {

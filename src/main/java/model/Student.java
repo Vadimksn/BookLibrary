@@ -94,4 +94,9 @@ public class Student extends LibraryModel {
     public String toStringForSearch() {
         return "" + id + " " + name + " " + surname + " " + middleName + " " + passportData;
     }
+
+    @Override
+    public String toStringForLog() {
+        return surname + " " + name + " " + middleName + " " + passportData;
+    }
 }

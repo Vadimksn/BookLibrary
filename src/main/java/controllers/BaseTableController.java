@@ -5,6 +5,7 @@ import javafx.collections.ObservableList;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import model.LibraryModel;
+import org.apache.log4j.Logger;
 import service.book.BookService;
 import service.student.StudentService;
 
@@ -23,7 +24,7 @@ public abstract class BaseTableController<T extends LibraryModel> {
 
     public abstract void initTableData();
 
-    protected int getSelectedId() {
+    private int getSelectedId() {
         return getTableView().getSelectionModel().getSelectedIndex();
     }
 

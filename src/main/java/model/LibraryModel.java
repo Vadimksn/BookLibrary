@@ -13,4 +13,5 @@ public abstract class LibraryModel {
     }
 
     public abstract String toStringForSearch();
+    public abstract String toStringForLog();
 }

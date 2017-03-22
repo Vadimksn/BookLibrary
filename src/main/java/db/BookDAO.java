@@ -2,6 +2,7 @@ package db;
 
 import model.Book;
 import model.Student;
+import org.apache.log4j.Logger;
 import service.ConnectionService;
 import utils.properties.PropertiesHolder;
 import utils.converter.ResultSetConverter;
@@ -17,6 +18,7 @@ import java.util.Date;
 import java.util.List;
 
 public class BookDAO {
+    private final static Logger logger = Logger.getLogger(BookDAO.class);
 
     public void save(Book book) {
         try (Connection connection = ConnectionService.createConnection();
@@ -28,6 +30,7 @@ public class BookDAO {
             preparedStatement.setString(4, book.getYearOfPublication());
             preparedStatement.execute();
             connection.commit();
+            logger.info("Book : [" + book.toStringForLog() + "] is saved.");
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -41,6 +44,7 @@ public class BookDAO {
             preparedStatement.setInt(1, book.getId());
             preparedStatement.execute();
             connection.commit();
+            logger.info("Book : [" + book.toStringForLog() + "] is deleted.");
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -57,6 +61,7 @@ public class BookDAO {
             preparedStatement.setInt(5, book.getId());
             preparedStatement.execute();
             connection.commit();
+            logger.info("Book : [" + book.toStringForLog() + "] is update.");
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -79,6 +84,7 @@ public class BookDAO {
             preparedStatement2.setInt(4, book.getId());
             preparedStatement2.execute();
             connection.commit();
+            logger.info("Book : [" + book.toStringForLog() + "] has been given.");
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -99,6 +105,7 @@ public class BookDAO {
             preparedStatement2.setInt(1, book.getId());
             preparedStatement2.execute();
             connection.commit();
+            logger.info("Book : [" + book.toStringForLog() + "] has been taken.");
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -111,6 +118,7 @@ public class BookDAO {
             preparedStatement.setInt(1, id);
             ResultSet resultSet = preparedStatement.executeQuery();
             book = ResultSetConverter.getBook(resultSet);
+            logger.info("Book : [" + book.toStringForLog() + "] has been gotten by id : " + book.getId()+".");
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -123,6 +131,8 @@ public class BookDAO {
              PreparedStatement preparedStatement = connection.prepareStatement(PreparedQuery.GET_LAST_ADDED_BOOK)) {
             ResultSet resultSet = preparedStatement.executeQuery();
             book = ResultSetConverter.getBook(resultSet);
+            logger.info("Last added book : [" + book.toStringForLog() + "] has been gotten.");
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -137,6 +147,7 @@ public class BookDAO {
             while (resultSet.next()) {
                 list.add(ResultSetConverter.getBook(resultSet));
             }
+            logger.info("List of books has been gotten.");
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -151,6 +162,7 @@ public class BookDAO {
             while (resultSet.next()) {
                 list.add(ResultSetConverter.getBook(resultSet));
             }
+            logger.info("List of available books had been gotten.");
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -165,6 +177,7 @@ public class BookDAO {
             while (resultSet.next()) {
                 list.add(ResultSetConverter.getNotAvailableBook(resultSet));
             }
+            logger.info("List of not available books had been gotten.");
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -180,6 +193,7 @@ public class BookDAO {
             while (resultSet.next()) {
                 list.add(ResultSetConverter.getBook(resultSet));
             }
+            logger.info("List of books has been received from a student : "+student.toStringForLog()+".");
         } catch (Exception e) {
             e.printStackTrace();
         }
