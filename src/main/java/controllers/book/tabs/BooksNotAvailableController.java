@@ -62,12 +62,7 @@ public class BooksNotAvailableController extends BaseTableController<Book> imple
     }
 
     private void initListeners() {
-        tfSearch.textProperty().addListener(new ChangeListener<String>() {
-            @Override
-            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-                search();
-            }
-        });
+        tfSearch.textProperty().addListener((observable, oldValue, newValue) -> search());
         btnTakeBook.setOnAction(event -> {
             if (getSelectionItem() != null && ViewUtil.showConfirmation()) {
                 bookService.takeBook(getSelectionItem());
