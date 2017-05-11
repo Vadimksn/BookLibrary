@@ -1,6 +1,6 @@
-# library-javaFx
+# **BookLibrary** by vadimksn.
 ## Used: [JavaFX], [SQLite], [Log4j], [Maven], JDBC.
-## To see the bonus, scroll down.
+## To see the **BONUS**, scroll down.
 
 #### Show tabs: AllBooks, AvailableBooks, NotAvailableBooks, AllStudents, StudentsBlacklist
 <img src="/src/main/resources/assets/show_tabs.gif">
